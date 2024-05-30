@@ -1,0 +1,18 @@
+{
+  "domain": "redback_tech",
+  "name": "Redback Technologies Smart Hybrid Inverters",
+  "codeowners": ["@cabberley"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/cabberley/homeassistant_redback",
+  "homekit": {},
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/cabberley/homeassistant_redback/issues",
+  "loggers": ["redback"],
+  "requirements": [
+      redbacktechpy
+  ],
+  "ssdp": [],
+  "version": "2024.05.0b1",
+  "zeroconf": []
+}

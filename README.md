@@ -10,6 +10,15 @@ You need to contact Redback Technologies support team to request API access. Thi
 
 ## Installation
 
-Install the repository through HACS (it should appear in the list of available integrations) or by manually copying the `custom_components/redback` folder into your `custom_components` folder.
+You will need to add this as a custom repository first before installing!!!!
+ or by manually copying the `custom_components/redback_tech` folder into your `custom_components` folder.
 
 ## Configuration
+
+This first release you will need to add
+both your:
+
+- Public API Client_ID and Client_Secret 
+- Portal Email address and password
+
+THe next release will enable you to Control your inverter

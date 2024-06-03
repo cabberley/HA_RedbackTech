@@ -10,9 +10,9 @@
   "issue_tracker": "https://github.com/cabberley/homeassistant_redback/issues",
   "loggers": ["redback"],
   "requirements": [
-      "redbacktechpy==2024.5.1b10"
+      "redbacktechpy==2024.5.2"
   ],
   "ssdp": [],
-  "version": "2024.5.1b10",
+  "version": "2024.5.2",
   "zeroconf": []
 }

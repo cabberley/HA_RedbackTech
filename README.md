@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="https://petkit.com"><img src="https://raw.githubusercontent.com/RobertD502/home-assistant-petkit/main/logo.png" width="480"></a>
+  <a href="https://petkit.com"><img src="https://raw.githubusercontent.com/cabberley/ha_redbacktech/main/ha_redbacktech_logo.png" width="480"></a>
   <br>
   <i>Redback Smart Inverters Home Assistant Integration</i>
   <br>

@@ -111,3 +111,4 @@ On the Inverter Device are a set of buttons
 
 - Create a HA Calender to surface the all the scheduled events.
 - Use something more user friendly for the event ids in the Schedule Selector list.
+

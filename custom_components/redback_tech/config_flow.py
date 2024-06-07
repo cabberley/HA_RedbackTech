@@ -32,7 +32,7 @@ class RedbackTechConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     VERSION = 1
     CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
-    
+
     entry: config_entries.ConfigEntry | None
     
     @staticmethod
@@ -47,9 +47,7 @@ class RedbackTechConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self.entry = self.hass.config_entries.async_get_entry(self.context["entry_id"])
         return await self.async_step_reauth_confirm()
 
-    async def async_step_reauth_confirm(
-            self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    async def async_step_reauth_confirm(self, user_input: dict[str, Any] | None = None) -> FlowResult:
         """Confirm re-authentication with redbackTech."""
 
         errors: dict[str, str] = {}
@@ -73,9 +71,7 @@ class RedbackTechConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     self.entry,
                     data={
                         **self.entry.data,
-                        #CONF_EMAIL: portal_email,
                         'portal_email': portal_email,
-                        #CONF_PASSWORD: portal_password,
                         'portal_password': portal_password,
                         CONF_CLIENT_ID: client_id,
                         CONF_CLIENT_SECRET: client_secret,
@@ -85,7 +81,6 @@ class RedbackTechConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     }
                 )
 
-                
                 await self.hass.config_entries.async_reload(self.entry.entry_id)
                 return self.async_abort(reason="reauth_successful")
             
@@ -95,9 +90,7 @@ class RedbackTechConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             errors=errors,
         )
 
-    async def async_step_user(
-            self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    async def async_step_user(self, user_input: dict[str, Any] | None = None) -> FlowResult:
         """Handle the initial step."""
 
         errors: dict[str, str] = {}

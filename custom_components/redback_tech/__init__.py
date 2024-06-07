@@ -8,7 +8,6 @@ from homeassistant.core import HomeAssistant
 from .const import DOMAIN, LOGGER, REDBACKTECH_COORDINATOR, PLATFORMS, UPDATE_LISTENER
 from .coordinator import RedbackTechDataUpdateCoordinator
 
-
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up RedbackTech from a config entry."""
 

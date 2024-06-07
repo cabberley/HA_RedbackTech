@@ -18,7 +18,11 @@ REDBACKTECH_COORDINATOR = "redbacktech_coordinator"
 REDBACK_PORTAL = "https://portal.redbacktech.com"
 MANUFACTURER = "Redback Technologies"
 PLATFORMS = [
-    Platform.SENSOR
+    Platform.SENSOR,
+    Platform.NUMBER,
+    Platform.SELECT,
+    Platform.DATETIME,
+    Platform.BUTTON,
 ]
 
 INVERTER_MODES = ["NoMode", "Auto", "ChargeBattery", "DischargeBattery", "ImportPower", "ExportPower", "Conserve", "Offgrid", "Hibernate", "BuyPower", "SellPower", "ForceChargeBattery", "ForceDischargeBattery", "Stop"]

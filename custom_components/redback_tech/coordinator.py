@@ -34,7 +34,7 @@ class RedbackTechDataUpdateCoordinator(DataUpdateCoordinator):
                 client_id=entry.data[CONF_CLIENT_ID],
                 client_secret=entry.data[CONF_CLIENT_SECRET],
                 session1=async_get_clientsession(hass),
-                session2=async_get_clientsession(hass),
+                session2=None, # async_get_clientsession(hass),
                 timeout=TIMEOUT,
             )
             super().__init__(

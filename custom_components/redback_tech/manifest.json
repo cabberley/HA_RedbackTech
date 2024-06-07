@@ -10,9 +10,9 @@
   "issue_tracker": "https://github.com/cabberley/HA_RedbackTech/issues",
   "loggers": ["redback"],
   "requirements": [
-      "redbacktechpy==2024.5.2"
+      "redbacktechpy==2024.6.1"
   ],
   "ssdp": [],
-  "version": "2024.6.0",
+  "version": "2024.6.1",
   "zeroconf": []
 }

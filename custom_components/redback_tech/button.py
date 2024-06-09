@@ -136,10 +136,13 @@ class RedbackTechButtonEntity(CoordinatorEntity, ButtonEntity):
         if self.ent_key[7:] =='create_schedule_event':
             await self.coordinator.client.set_inverter_schedule( redback_devices[self.ent_id].identifiers)
         elif self.ent_key[7:] =='delete_all_schedule_events':
+            #self.select_data = None
             await self.coordinator.client.delete_all_inverter_schedules( redback_devices[self.ent_id].identifiers)
         elif self.ent_key[7:] =='delete_current_schedule_event':
             await self.coordinator.client.delete_inverter_schedule( redback_devices[self.ent_id].identifiers, self.select_data)
+            #self.select_data = ''
         elif self.ent_key[7:] =='reset_inverter_to_auto':
+            #self.select_data = None
             await self.coordinator.client.delete_all_inverter_schedules( redback_devices[self.ent_id].identifiers)
             
             await self.coordinator.client.set_inverter_mode_portal(redback_devices[self.ent_id].identifiers, True)

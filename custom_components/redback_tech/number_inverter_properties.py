@@ -3,7 +3,7 @@ from __future__ import annotations
 
 
 from math import floor as floor
-from typing import Any
+#from typing import Any
 
 from homeassistant.components.number import (
     NumberMode,

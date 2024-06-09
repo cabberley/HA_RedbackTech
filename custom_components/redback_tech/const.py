@@ -23,6 +23,7 @@ PLATFORMS = [
     Platform.SELECT,
     Platform.DATETIME,
     Platform.BUTTON,
+    Platform.BINARY_SENSOR,
 ]
 
 INVERTER_MODES = ["NoMode", "Auto", "ChargeBattery", "DischargeBattery", "ImportPower", "ExportPower", "Conserve", "Offgrid", "Hibernate", "BuyPower", "SellPower", "ForceChargeBattery", "ForceDischargeBattery", "Stop"]

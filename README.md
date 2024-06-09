@@ -14,10 +14,12 @@
   <img alt="GitHub" src="https://img.shields.io/github/license/cabberley/HA_RedbackTech">
   <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues/cabberley/ha_redbacktech"> <img alt="GitHub User's stars" src="https://img.shields.io/github/stars/cabberley">
 
-
 </p>
 <p align="center">
-    <a href="https://github.com/hacs/integration"><img src="https://img.shields.io/badge/HACS-Custom-41BDF5.svg">
+    <a href="https://github.com/hacs/integration"><img src="https://img.shields.io/badge/HACS-Custom-41BDF5.svg"></a>
+</p>
+<p align="center">
+  <a href="https://www.buymeacoffee.com/cabberley" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 </p>
 
 [Redback Technologies](https://redbacktech.com/) produces a range of inverter and battery systems. This integration uses the Redback Technologies Portal (public API) and portal (portal.redbacktech.com) to sync and control your solar and battery energy data with Home Assistant.

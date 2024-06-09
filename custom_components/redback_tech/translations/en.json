@@ -68,7 +68,7 @@
           }
         }
       },
-    "create_schedules": {
+    "create_schedule": {
       "name": "Create Schedules",
         "description": "Create an inverter schedules",
         "fields": {
@@ -90,7 +90,7 @@
           },
       "mode": {
             "name": "Power Mode",
-            "description": "THe power Level to set the inverter at in watts."
+            "description": "The power Level to set the inverter at in watts."
           }
         }
       }

@@ -75,7 +75,7 @@ create_schedule:
             - chargebattery
             - dischargebattery
             - importpower
-            - exportpPower
+            - exportpower
             - conserve
   fields_validation:
     serial_number: str

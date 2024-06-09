@@ -73,9 +73,4 @@ create_schedule:
             - ImportPower
             - ExportPower
             - Conserve
-  fields_validation:
-    serial_number: str
-    start_time: datetime
-    duration: int
-    power: int
   service: redback_tech.create_schedule

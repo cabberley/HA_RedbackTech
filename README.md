@@ -24,16 +24,24 @@
 
 [Redback Technologies](https://redbacktech.com/) produces a range of inverter and battery systems. This integration uses the Redback Technologies Portal (public API) and portal (portal.redbacktech.com) to sync and control your solar and battery energy data with Home Assistant.
 
+> [!IMPORTANT]
+> **Please make sure you read and understand the information below on how this integration controls your inverter!**
+
 This release of the integration adds some **MAJOR** enhancements!!
 
-- **Supports Controller your Inverter, more details below!**
+- **Supports Controlling your Inverter, more details below!**
 - Supports multiple API Accounts
 - Supports multiple RedBack inverters on the same site
 - Supports multiple inverters on the same API Account
 - Creates an Inverter and a Battery devices for each inverter it finds (Adds the Battery device only if it finds batteries in your setup)
 
-> [!IMPORTANT]
-> **Please make sure you read and understand the infomation below on how this integration controls your inverter!**
+**Verions 2.6.3 updates**
+
+- Added new sensors to display information about currently active scheduled event
+- Added Services to enable calling several functions
+  - Reset to AUTO Mode
+  - Delete All Scheduled Events
+  - Create a scheduled Event
 
 ## Pre-requisites
 
@@ -113,5 +121,3 @@ On the Inverter Device are a set of buttons
 
 - Create a HA Calender to surface the all the scheduled events.
 - Use something more user friendly for the event ids in the Schedule Selector list.
-- expose the api calls behind the buttons as HA Services
-

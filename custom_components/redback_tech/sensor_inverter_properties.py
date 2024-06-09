@@ -3,7 +3,7 @@ from __future__ import annotations
 
 
 from math import floor as floor
-from typing import Any
+#from typing import Any
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
@@ -157,19 +157,24 @@ ENTITY_DETAILS = {
     'status':{ 'name':'Status','unit':None,'icon':None,'device_class':SensorDeviceClass.ENUM,'state_class':None,'display_precision':None,'options':INVERTER_STATUS,'mode':None,'category':None,'visible':None,'enabled':None},
     'system_type':{ 'name':'System Type','unit':None,'icon':None,'device_class':None,'state_class':None,'display_precision':None,'options':None,'mode':None,'category':EntityCategory.DIAGNOSTIC,'visible':None,'enabled':None},
     'timestamp_utc':{ 'name':'Timestamp','unit':None,'icon':None,'device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':None,'category':None,'visible':None,'enabled':None},
-    'scheduled_start_time':{ 'name':'Scheduled Start Time','unit':None,'icon':'','device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':None,'enabled':None},
-    'scheduled_finish_time':{ 'name':'Scheduled Finish Time','unit':None,'icon':'','device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':None,'enabled':None},
-    'scheduled_duration':{ 'name':'Scheduled Duration','unit':UnitOfTime.MINUTES,'icon':'','device_class':SensorDeviceClass.DURATION,'state_class':SensorStateClass.MEASUREMENT,'display_precision':None,'options':None,'mode':'None','category':None,'visible':None,'enabled':None},
-    'scheduled_power_w':{ 'name':'Scheduled Power Level','unit':UnitOfPower.WATT,'icon':'','device_class':SensorDeviceClass.POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':'None','category':None,'visible':None,'enabled':None},
-    'scheduled_inverter_mode':{ 'name':'Scheduled Inverter Mode','unit':None,'icon':'','device_class':SensorDeviceClass.ENUM,'state_class':None,'display_precision':None,'options':INVERTER_MODES,'mode':'None','category':None,'visible':None,'enabled':None},
+    'scheduled_start_time':{ 'name':'Scheduled Start Time','unit':None,'icon':None,'device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':None,'category':None,'visible':None,'enabled':None},
+    'scheduled_finish_time':{ 'name':'Scheduled Finish Time','unit':None,'icon':None,'device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':None,'category':None,'visible':None,'enabled':None},
+    'scheduled_duration':{ 'name':'Scheduled Duration','unit':UnitOfTime.MINUTES,'icon':None,'device_class':SensorDeviceClass.DURATION,'state_class':SensorStateClass.MEASUREMENT,'display_precision':None,'options':None,'mode':None,'category':None,'visible':None,'enabled':None},
+    'scheduled_power_w':{ 'name':'Scheduled Power Level','unit':UnitOfPower.WATT,'icon':None,'device_class':SensorDeviceClass.POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':None,'category':None,'visible':None,'enabled':None},
+    'scheduled_inverter_mode':{ 'name':'Scheduled Inverter Mode','unit':None,'icon':None,'device_class':SensorDeviceClass.ENUM,'state_class':None,'display_precision':None,'options':INVERTER_MODES,'mode':None,'category':None,'visible':None,'enabled':None},
+    'active_event_start_time':{ 'name':'Active Event Start Time','unit':None,'icon':None,'device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':None,'category':None,'visible':True,'enabled':True},
+    'active_event_end_time':{ 'name':'Active Event Finish Time','unit':None,'icon':None,'device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':None,'category':None,'visible':True,'enabled':True},
+    'active_event_duration':{ 'name':'Active Event Duration','unit':UnitOfTime.MINUTES,'icon':None,'device_class':SensorDeviceClass.DURATION,'state_class':SensorStateClass.MEASUREMENT,'display_precision':None,'options':None,'mode':None,'category':None,'visible':True,'enabled':True},
+    'active_event_inverter_mode':{ 'name':'Active Event Inverter Mode','unit':None,'icon':None,'device_class':SensorDeviceClass.ENUM,'state_class':None,'display_precision':None,'options':INVERTER_MODES,'mode':None,'category':None,'visible':True,'enabled':True},
+    'active_event_power_w':{ 'name':'Active Event Power Level','unit':UnitOfPower.WATT,'icon':None,'device_class':SensorDeviceClass.POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':None,'category':None,'visible':True,'enabled':True},
 
 }
 
 SCHEDULE_DETAILS = {
-    'scheduled_start_time':{ 'name':'Scheduled Start Time','unit':None,'icon':'','device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
-    'scheduled_finish_time':{ 'name':'Scheduled Finish Time','unit':None,'icon':'','device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
-    'scheduled_duration':{ 'name':'Scheduled Duration','unit':UnitOfTime.MINUTES,'icon':'','device_class':SensorDeviceClass.DURATION,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
-    'scheduled_power_w':{ 'name':'Scheduled Power Level','unit':UnitOfPower.WATT,'icon':'','device_class':SensorDeviceClass.POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
-    'scheduled_inverter_mode':{ 'name':'Scheduled Inverter Mode','unit':None,'icon':'','device_class':SensorDeviceClass.ENUM,'state_class':None,'display_precision':None,'options':INVERTER_MODES,'mode':'None','category':None,'visible':True,'enabled':True},
+    'scheduled_start_time':{ 'name':'Scheduled Start Time','unit':None,'icon':None,'device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':None,'category':None,'visible':True,'enabled':True},
+    'scheduled_finish_time':{ 'name':'Scheduled Finish Time','unit':None,'icon':None,'device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':None,'category':None,'visible':True,'enabled':True},
+    'scheduled_duration':{ 'name':'Scheduled Duration','unit':UnitOfTime.MINUTES,'icon':None,'device_class':SensorDeviceClass.DURATION,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':None,'category':None,'visible':True,'enabled':True},
+    'scheduled_power_w':{ 'name':'Scheduled Power Level','unit':UnitOfPower.WATT,'icon':None,'device_class':SensorDeviceClass.POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':None,'category':None,'visible':True,'enabled':True},
+    'scheduled_inverter_mode':{ 'name':'Scheduled Inverter Mode','unit':None,'icon':None,'device_class':SensorDeviceClass.ENUM,'state_class':None,'display_precision':None,'options':INVERTER_MODES,'mode':None,'category':None,'visible':True,'enabled':True},
 
 }

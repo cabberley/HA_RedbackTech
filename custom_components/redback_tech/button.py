@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from math import floor as floor
 from typing import Any
+from datetime import datetime, timezone 
 
 from homeassistant.components.button import (
     ButtonEntity,
@@ -44,6 +45,30 @@ async def async_setup_entry(
                 button_entitys.extend([RedbackTechButtonEntity(coordinator, entity_key)])
     
     async_add_entities(button_entitys)
+    
+    async def handle_reset(call):
+        """Handle the service call."""
+        device = call.data.get('serial_number')[-4:]+'inv'
+        await coordinator.client.delete_all_inverter_schedules(device)
+        await coordinator.client.set_inverter_mode_portal(device, True)
+        
+    async def handle_delete_all_schedules(call):
+        device = call.data.get('serial_number')[-4:]+'inv'
+        await coordinator.client.delete_all_inverter_schedules(device)
+
+    async def handle_create_schedule(call):
+        device = call.data.get('serial_number')[-4:]+'inv'
+        mode = call.data.get('mode')
+        power = call.data.get('power')
+        duration = call.data.get('duration')
+        LOGGER.debug(f'device Call data: {call.data}')
+        start_time = datetime.strptime(call.data.get('start_time'), "%Y-%m-%d %H:%M:%S").astimezone(timezone.utc)
+        LOGGER.debug(f'device Start Time1: {start_time}')
+        await coordinator.client.create_schedule_service(device, mode, power, duration, start_time)
+
+    hass.services.async_register(DOMAIN, "inverter_reset_to_auto", handle_reset)
+    hass.services.async_register(DOMAIN, "delete_all_schedules", handle_delete_all_schedules)
+    hass.services.async_register(DOMAIN, "create_schedule", handle_create_schedule)
     
 class RedbackTechButtonEntity(CoordinatorEntity, ButtonEntity):
     """Representation of Number."""
@@ -111,10 +136,13 @@ class RedbackTechButtonEntity(CoordinatorEntity, ButtonEntity):
         if self.ent_key[7:] =='create_schedule_event':
             await self.coordinator.client.set_inverter_schedule( redback_devices[self.ent_id].identifiers)
         elif self.ent_key[7:] =='delete_all_schedule_events':
+            #self.select_data = None
             await self.coordinator.client.delete_all_inverter_schedules( redback_devices[self.ent_id].identifiers)
         elif self.ent_key[7:] =='delete_current_schedule_event':
             await self.coordinator.client.delete_inverter_schedule( redback_devices[self.ent_id].identifiers, self.select_data)
+            #self.select_data = ''
         elif self.ent_key[7:] =='reset_inverter_to_auto':
+            #self.select_data = None
             await self.coordinator.client.delete_all_inverter_schedules( redback_devices[self.ent_id].identifiers)
             
             await self.coordinator.client.set_inverter_mode_portal(redback_devices[self.ent_id].identifiers, True)

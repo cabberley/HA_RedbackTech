@@ -23,10 +23,11 @@ PLATFORMS = [
     Platform.SELECT,
     Platform.DATETIME,
     Platform.BUTTON,
+    Platform.BINARY_SENSOR,
 ]
 
 INVERTER_MODES = ["NoMode", "Auto", "ChargeBattery", "DischargeBattery", "ImportPower", "ExportPower", "Conserve", "Offgrid", "Hibernate", "BuyPower", "SellPower", "ForceChargeBattery", "ForceDischargeBattery", "Stop"]
-INVERTER_MODES_OPTIONS = ["Auto", "ChargeBattery", "DischargeBattery", "ImportPower", "ExportPower", "Conserve"]
+INVERTER_MODES_OPTIONS = ["ChargeBattery", "DischargeBattery", "ImportPower", "ExportPower", "Conserve"]
 INVERTER_STATUS = ["OK", "Offline", "Fault"]
 FAN_STATE = ["Off", "On", "Error"]
 

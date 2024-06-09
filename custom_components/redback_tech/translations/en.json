@@ -39,11 +39,11 @@
     "selector": {
       "mode": {
         "options": {
-          "ChargeBattery": "Charge Battery",
-          "DischargeBattery": "Discharge Battery",
-          "ImportPower": "Import Power",
-      "ExportPower": "Export Power",
-          "Conserve": "Conserve"
+          "chargebattery": "Charge Battery",
+          "dischargebattery": "Discharge Battery",
+          "importpower": "Import Power",
+          "exportpower": "Export Power",
+          "conserve": "Conserve"
         }
       }
     },

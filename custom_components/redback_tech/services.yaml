@@ -1,5 +1,4 @@
 inverter_reset:
-  alias: Reset inverter to automatic mode
   mode: single
   description: Reset inverter to automatic mode
   fields:
@@ -13,7 +12,6 @@ inverter_reset:
     serial_number: str
   service: redback_tech.inverter_reset
 delete_all_schedules:
-  alias: Delete all schedules
   description: Delete all schedules
   mode: single
   fields:
@@ -27,7 +25,6 @@ delete_all_schedules:
     serial_number: str
   service: redback_tech.delete_all_schedules
 create_schedule:
-  alias: Create a schedule
   description: Create a schedule for the inverter
   mode: queued
   fields:

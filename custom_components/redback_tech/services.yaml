@@ -50,18 +50,20 @@ create_schedule:
       example: 25
       selector:
         number:
-        min: 1
-        max: 1440
-        step: 1
+          min: 1
+          max: 1440
+          step: 1
+          unit_of_measurement: minutes
     power:
       required: true
       description: The power level of the schedule
       example: 1000
       selector:
         number:
-        min: 1
-        max: 10000
-        step: 1
+          min: 1
+          max: 10000
+          step: 1
+          unit_of_measurement: Watts
     mode:
       required: true
       description: The mode of the schedule

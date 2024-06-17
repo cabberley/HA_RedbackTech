@@ -35,7 +35,11 @@ This release of the integration adds some **MAJOR** enhancements!!
 - Supports multiple inverters on the same API Account
 - Creates an Inverter and a Battery devices for each inverter it finds (Adds the Battery device only if it finds batteries in your setup)
 
-**Verions 2.6.3 updates**
+**Version 2.6.5 updates**
+- fixed an URGENT issue with Token expiration logic prematurely timing out and renewing the token, was causing HTTP 500 errors sproadicly.
+- fix to support Redback SI series inverters, was crashing the device creation process due to them not using the historical 'Schedule APIs'
+
+**Verion 2.6.3 updates**
 
 - Added new sensors to display information about currently active scheduled event
 - Added Services to enable calling several functions

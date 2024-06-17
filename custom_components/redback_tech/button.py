@@ -37,9 +37,9 @@ async def async_setup_entry(
     redback_devices = coordinator.data.devices    
     button_entitys = []
     for device in redback_devices:
-        LOGGER.debug(f'device: {device}')
+        LOGGER.debug('device: %s', device)
         if device[-3:] == 'inv':
-            LOGGER.debug(f'device: {device}')
+            LOGGER.debug('device: %s', device)
             for entity in ENTITY_DETAILS:
                 entity_key = device + entity
                 button_entitys.extend([RedbackTechButtonEntity(coordinator, entity_key)])

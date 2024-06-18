@@ -11,7 +11,7 @@
 
 <p align="center">
   <href="https://github.com/cabberley/HA_RedbackTech/releases"><img src="https://img.shields.io/github/v/release/cabberley/HA_RedbackTech?display_name=tag&include_prereleases&sort=semver" alt="Current version">
-  <img alt="GitHub" src="https://img.shields.io/github/license/cabberley/HA_RedbackTech">
+  <img alt="GitHub" src="https://img.shields.io/github/license/cabberley/HA_RedbackTech"> <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/cabberley/ha_redbacktech/validate.yaml">
   <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues/cabberley/ha_redbacktech"> <img alt="GitHub User's stars" src="https://img.shields.io/github/stars/cabberley">
 
 </p>
@@ -76,6 +76,9 @@ If successful you should now find devices for all your Inverters and Battery sta
 
 ## Controlling your Inverter with the Integration
 
+> [!TIP]
+> People with Redback SI series smart Inverters Won't have access to the Controlling your Inverter through this integration atm. I do plan to provide an interrface to the 'Relay' scheduler when time permits.
+
 Most users will be familiar with the Redback Portal Settings Page, which enables you to either create timed schedule to set the inverter to operate during a window of time or the alternative of set the Inverter to a mode and power setting and it will stay like that until you change it.
 
 For this integration, I decided to take the schedule path, the reasoning for this was my previous controls to set the inverter using the 'Set" method relied on HA setting a date time value to a DateTime entity and triggering a HA event to turn it back to Auto when the time triggered. If HA restarted, there was no guarantee that the datetime value would persist and the trigger would fire when expected.
@@ -121,7 +124,12 @@ On the Inverter Device are a set of buttons
 - Reset Inverter to AUTO (Will delete all schedules in the Inverter and also then reset the Inverter mode to 'Auto')
 - Reset Start Time to Now (Explained above)
 
+### Quick start to using the inverter controls
+
+A simple trick to help get you started, if you go into your settings and devices, to the Inverter Device, there is an option in the group of 'Controls' to add them all to a dashboard in a suggested card. 
+
 ## TO DO LIST
 
 - Create a HA Calender to surface the all the scheduled events.
 - Use something more user friendly for the event ids in the Schedule Selector list.
+- Add control for the Relays on the SI model inverters

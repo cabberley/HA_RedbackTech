@@ -11,7 +11,7 @@
 
 <p align="center">
   <href="https://github.com/cabberley/HA_RedbackTech/releases"><img src="https://img.shields.io/github/v/release/cabberley/HA_RedbackTech?display_name=tag&include_prereleases&sort=semver" alt="Current version">
-  <img alt="GitHub" src="https://img.shields.io/github/license/cabberley/HA_RedbackTech">
+  <img alt="GitHub" src="https://img.shields.io/github/license/cabberley/HA_RedbackTech"> <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/cabberley/ha_redbacktech/validate.yaml">
   <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues/cabberley/ha_redbacktech"> <img alt="GitHub User's stars" src="https://img.shields.io/github/stars/cabberley">
 
 </p>
@@ -35,7 +35,20 @@ This release of the integration adds some **MAJOR** enhancements!!
 - Supports multiple inverters on the same API Account
 - Creates an Inverter and a Battery devices for each inverter it finds (Adds the Battery device only if it finds batteries in your setup)
 
-**Verions 2.6.3 updates**
+## Version 2.6.6 updates
+
+- Added full Inverter Control via Portal via Call Services only. 'set_portal_mode' services
+- Modified Schedule select list to Display datetime and PowerMode for the scheduled events
+- Added new sensor to display % power generation of your PV capacity, not inverter capacity
+- Added better support for the RedBack SI series Inverters, removed buttons for inverter as they aren't relevant
+- Optimization of API calls to reduce unnecessary API calls
+
+## Version 2.6.5 updates
+
+- fixed an URGENT issue with Token expiration logic prematurely timing out and renewing the token, was causing HTTP 500 errors sproadicly.
+- fix to support Redback SI series inverters, was crashing the device creation process due to them not using the historical 'Schedule APIs'
+
+## Verion 2.6.3 updates
 
 - Added new sensors to display information about currently active scheduled event
 - Added Services to enable calling several functions
@@ -71,6 +84,9 @@ Complete the form and submit.
 If successful you should now find devices for all your Inverters and Battery stacks.
 
 ## Controlling your Inverter with the Integration
+
+> [!TIP]
+> People with Redback SI series smart Inverters Won't have access to the Controlling your Inverter through this integration atm. I do plan to provide an interrface to the 'Relay' scheduler when time permits.
 
 Most users will be familiar with the Redback Portal Settings Page, which enables you to either create timed schedule to set the inverter to operate during a window of time or the alternative of set the Inverter to a mode and power setting and it will stay like that until you change it.
 
@@ -117,7 +133,12 @@ On the Inverter Device are a set of buttons
 - Reset Inverter to AUTO (Will delete all schedules in the Inverter and also then reset the Inverter mode to 'Auto')
 - Reset Start Time to Now (Explained above)
 
+### Quick start to using the inverter controls
+
+A simple trick to help get you started, if you go into your settings and devices, to the Inverter Device, there is an option in the group of 'Controls' to add them all to a dashboard in a suggested card. 
+
 ## TO DO LIST
 
 - Create a HA Calender to surface the all the scheduled events.
 - Use something more user friendly for the event ids in the Schedule Selector list.
+- Add control for the Relays on the SI model inverters

@@ -167,7 +167,7 @@ ENTITY_DETAILS = {
     'active_event_duration':{ 'name':'Active Event Duration','unit':UnitOfTime.MINUTES,'icon':None,'device_class':SensorDeviceClass.DURATION,'state_class':SensorStateClass.MEASUREMENT,'display_precision':None,'options':None,'mode':None,'category':None,'visible':True,'enabled':True},
     'active_event_inverter_mode':{ 'name':'Active Event Inverter Mode','unit':None,'icon':None,'device_class':SensorDeviceClass.ENUM,'state_class':None,'display_precision':None,'options':INVERTER_MODES,'mode':None,'category':None,'visible':True,'enabled':True},
     'active_event_power_w':{ 'name':'Active Event Power Level','unit':UnitOfPower.WATT,'icon':None,'device_class':SensorDeviceClass.POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':None,'category':None,'visible':True,'enabled':True},
-
+    'pv_generation_instantaneous_percent_capacity':{ 'name':'PV Capacity Percent Generating Instantaneous ','unit':PERCENTAGE,'icon':None,'device_class':None,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':None,'category':None,'visible':True,'enabled':True},
 }
 
 SCHEDULE_DETAILS = {

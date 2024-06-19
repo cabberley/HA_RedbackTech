@@ -1,4 +1,4 @@
-inverter_reset:
+inverter_reset_to_auto:
   description: Reset inverter to automatic mode
   fields:
     serial_number:
@@ -65,4 +65,36 @@ create_schedule:
             - importpower
             - exportpower
             - conserve
-            
+set_portal_mode:
+  description: Set the portal mode
+  fields:
+    serial_number:
+      required: true
+      description: The serial number of the inverter
+      example: RB20221443110059
+      selector:
+        text:
+    power:
+      required: false
+      description: The power level of the schedule
+      example: 1000
+      selector:
+        number:
+          min: 1
+          max: 10000
+          step: 1
+          unit_of_measurement: Watts
+    mode1:
+      required: true
+      description: The mode to set the Inverter to
+      example: 'ChargeBattery'
+      selector:
+        select:
+          translation_key: "mode1"
+          options:
+            - auto
+            - chargebattery
+            - dischargebattery
+            - importpower
+            - exportpower
+            - conserve

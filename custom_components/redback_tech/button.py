@@ -1,7 +1,7 @@
 """Sensor platform for Redback Tech integration."""
 from __future__ import annotations
 
-from math import floor as floor
+#from math import floor as floor
 from typing import Any
 from datetime import datetime, timezone 
 
@@ -31,30 +31,49 @@ async def async_setup_entry(
 ) -> None:
     """Set Up Redback Tech Sensor Entities."""
     global redback_devices
-    
+
     coordinator: RedbackTechDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][REDBACKTECH_COORDINATOR]
 
-    redback_devices = coordinator.data.devices    
+    redback_devices = coordinator.data.devices
     button_entitys = []
     for device in redback_devices:
         LOGGER.debug('device: %s', device)
-        if device[-3:] == 'inv':
+        if device[-3:] == 'inv' and redback_devices[device].model[:2] != 'SI':
             LOGGER.debug('device: %s', device)
             for entity in ENTITY_DETAILS:
                 entity_key = device + entity
                 button_entitys.extend([RedbackTechButtonEntity(coordinator, entity_key)])
-    
+
     async_add_entities(button_entitys)
-    
+
     async def handle_reset(call):
         """Handle the service call."""
         device = call.data.get('serial_number')[-4:]+'inv'
         await coordinator.client.delete_all_inverter_schedules(device)
-        await coordinator.client.set_inverter_mode_portal(device, True)
-        
+        await coordinator.client.set_inverter_mode_portal(device, mode_override=True)
+
     async def handle_delete_all_schedules(call):
         device = call.data.get('serial_number')[-4:]+'inv'
         await coordinator.client.delete_all_inverter_schedules(device)
+
+    async def handle_set_portal_mode(call):
+        device_id = call.data.get('serial_number')[-4:] #+'inv'
+        mode = call.data.get('mode1')
+        power = call.data.get('power')
+        if mode.lower() == 'auto':
+            mode = 'Auto'
+        elif mode.lower() == 'chargebattery':
+            mode = 'ChargeBattery'
+        elif mode.lower() == 'dischargebattery':
+            mode = 'DischargeBattery'
+        elif mode.lower() == 'exportpower':
+            mode = 'ExportPower'
+        elif mode.lower() == 'importpower':
+            mode = 'ImportPower'
+        elif mode.lower() == 'conserve':
+            mode = 'Conserve'
+        LOGGER.debug(f'device Call set Portal data: {call.data}')
+        await coordinator.client.set_inverter_mode_portal(device_id=device_id, mode=mode, power=power, mode_override=False)
 
     async def handle_create_schedule(call):
         device = call.data.get('serial_number')[-4:]+'inv'
@@ -66,9 +85,10 @@ async def async_setup_entry(
         LOGGER.debug(f'device Start Time1: {start_time}')
         await coordinator.client.create_schedule_service(device, mode, power, duration, start_time)
 
-    hass.services.async_register(DOMAIN, "inverter_reset_to_auto", handle_reset)
-    hass.services.async_register(DOMAIN, "delete_all_schedules", handle_delete_all_schedules)
-    hass.services.async_register(DOMAIN, "create_schedule", handle_create_schedule)
+    hass.services.async_register(DOMAIN, 'inverter_reset_to_auto', handle_reset)
+    hass.services.async_register(DOMAIN, 'delete_all_schedules', handle_delete_all_schedules)
+    hass.services.async_register(DOMAIN, 'create_schedule', handle_create_schedule)
+    hass.services.async_register(DOMAIN, 'set_portal_mode', handle_set_portal_mode)
     
 class RedbackTechButtonEntity(CoordinatorEntity, ButtonEntity):
     """Representation of Number."""

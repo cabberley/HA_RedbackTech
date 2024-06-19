@@ -45,10 +45,20 @@
           "exportpower": "Export Power",
           "conserve": "Conserve"
         }
+      },
+      "mode1": {
+        "options": {
+          "auto": "Auto",
+          "chargebattery": "Charge Battery",
+          "dischargebattery": "Discharge Battery",
+          "importpower": "Import Power",
+          "exportpower": "Export Power",
+          "conserve": "Conserve"
+        }
       }
     },
     "services": {
-      "inverter_reset": {
+      "inverter_reset_to_auto": {
         "name": "Inverter Reset to Auto",
         "description": "Reset inverter to automatic mode",
         "fields": {
@@ -90,9 +100,29 @@
           },
       "mode": {
             "name": "Power Mode",
-            "description": "The power Level to set the inverter at in watts."
+            "description": "The power mode to set the inverter to."
+          }
+        }
+      },
+    "set_portal_mode": {
+      "name": "Set Portal Mode",
+        "description": "Set the portal mode",
+        "fields": {
+          "serial_number": {
+            "name": "Serial Number",
+            "description": "The serial number of the inverter."
+          },
+      "power": {
+            "name": "Power Level",
+            "description": "The watts to set for the inverter."
+          },
+      "mode1": {
+            "name": "Mode",
+            "description": "The mode to set the inverter to."
           }
         }
       }
     }
   }
+  
+

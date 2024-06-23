@@ -11,7 +11,7 @@
   "loggers": ["redback"],
   "requirements": [
 
-      "redbacktechpy==2024.6.6"
+      "redbacktechpy==2024.6.7b6"
   ],
   "ssdp": [],
 

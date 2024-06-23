@@ -65,6 +65,12 @@ create_schedule:
             - importpower
             - exportpower
             - conserve
+            - Offgrid
+            - Hibernate
+            - BuyPower
+            - SellPower
+            - ForceChargeBattery
+            - ForceDischargeBattery
 set_portal_mode:
   description: Set the portal mode
   fields:
@@ -98,3 +104,111 @@ set_portal_mode:
             - importpower
             - exportpower
             - conserve
+create_operating_envelope:
+  description: Create an operating envelope for the Redback Site
+  fields:
+    site_id:
+      required: true
+      description: Your Redback Site ID - find it in your device settings
+      example: S11b99961e567b
+      selector:
+        text:
+    event_id:
+      required: true
+      description: A unique name for the operating envelope
+      example: TuesdayCurtailment
+      selector:
+        text:
+    start_time:
+      required: true
+      description: The start time of the operating envelope
+      example: 2022-03-22 07:00
+      default: 2024-06-01 07:00
+      selector:
+        datetime:
+    end_time: 
+      required: true
+      description: The end time of the operating envelope
+      example: 2022-03-22 07:00
+      default: 2024-06-01 07:00
+      selector:
+        datetime:
+    max_import_power:
+      required: true
+      description: The maximum import power level of the operating envelope in Watts
+      example: 1000
+      default: 10000
+      selector:
+        number:
+          min: 0
+          max: 10000
+          step: 1
+          unit_of_measurement: Watts  
+    max_export_power:
+      required: true
+      description: The maximum export power level of the operating envelope in Watts
+      example: 1000
+      default: 10000
+      selector:
+        number:
+          min: 0
+          max: 10000
+          step: 1
+          unit_of_measurement: Watts
+    max_charge_power:
+      required: true
+      description: The maximum charge power level of the operating envelope in Watts
+      example: 1000
+      default: 10000
+      selector:
+        number:
+          min: 0
+          max: 10000
+          step: 1
+          unit_of_measurement: Watts
+    max_discharge_power:
+      required: true
+      description: The maximum discharge power level of the operating envelope in Watts
+      example: 1000
+      default: 10000
+      selector:
+        number:
+          min: 0
+          max: 10000
+          step: 1
+          unit_of_measurement: Watts
+    max_generation_power:
+      required: true
+      description: The maximum generation power level of the operating envelope in VA
+      example: 1000
+      default: 10000
+      selector:
+        number:
+          min: 0
+          max: 10000
+          step: 1
+          unit_of_measurement: VA
+delete_all_envelopes:
+  description: Delete all schedules
+  fields:
+    site_id:
+      required: true
+      description: Your Redback Site ID - find it in your device settings
+      example: S11b99961e567b
+      selector:
+        text:
+delete_single_envelope:
+  description: Delete a single operating envelope
+  fields:
+    site_id:
+      required: true
+      description: Your Redback Site ID - find it in your device settings
+      example: S11b99961e567b
+      selector:
+        text:
+    event_id:
+      required: true
+      description: The unique name of the operating envelope to delete
+      example: TuesdayCurtailment
+      selector:
+        text:

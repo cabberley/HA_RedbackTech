@@ -1,128 +1,222 @@
 {
-    "config": {
-      "step": {
-        "user": {
-          "title": "Fill in your Redback Technologies credentials",
-          "data": {
-            "client_id": "Redback API Client ID",
-            "client_secret": "Redback API Client Secret",
-            "portal_email": "Redback Portal account email",
-            "portal_password": "Redback Portal account password",
-            "polling_interval": "Polling interval (seconds)"
-          }
-        },
-        "reauth_confirm": {
-          "title": "Reauthenticate with your Redback Technologies credentials",
-          "data": {
-            "client_id": "Redback API Client ID",
-            "client_secret": "Redback API Client Secret",
-            "portal_email": "Redback Portal account email",
-            "portal_password": "Redback Portal account password",
-            "polling_interval": "Polling interval (seconds)"
-          }
+  "config": {
+    "step": {
+      "user": {
+        "title": "Fill in your Redback Technologies credentials",
+        "data": {
+          "client_id": "Redback API Client ID",
+          "client_secret": "Redback API Client Secret",
+          "portal_email": "Redback Portal account email",
+          "portal_password": "Redback Portal account password",
+          "polling_interval": "Polling interval (seconds)",
+          "include_envelope": "Include Operating Envelopes"
         }
       },
-      "error": {
-        "cannot_connect": "Failed to connect",
-        "invalid_auth": "Invalid authentication. Are your credentials correct?",
-        "no_devices": "No devices found on account",
-        "server_busy": "PetKit servers are busy. Please try again later.",
-        "petkit_error": "Unknown error encountered. Please see Home Assistant logs for more details.",
-        "region_error": "Please select the country associated with your account.",
-        "timezone_error": "A timezone could not be found. If you are running Home Assistant as a standalone Docker container, you must define the TZ environmental variable. If the TZ variable is defined or you are running Home Assistant OS, your timezone was not found in the tzlocal library - Please manually select a timezone during setup."
-      },
-      "abort": {
-        "already_configured": "Redback account is already configured",
-        "reauth_successful": "Reauthentication was successful"
-      }
-    },
-    "selector": {
-      "mode": {
-        "options": {
-          "chargebattery": "Charge Battery",
-          "dischargebattery": "Discharge Battery",
-          "importpower": "Import Power",
-          "exportpower": "Export Power",
-          "conserve": "Conserve"
+      "reauth_confirm": {
+        "title": "Reauthenticate with your Redback Technologies credentials",
+        "data": {
+          "client_id": "Redback API Client ID",
+          "client_secret": "Redback API Client Secret",
+          "portal_email": "Redback Portal account email",
+          "portal_password": "Redback Portal account password",
+          "polling_interval": "Polling interval (seconds)",
+          "include_envelope": "Include Operating Envelopes"
         }
       },
-      "mode1": {
-        "options": {
-          "auto": "Auto",
-          "chargebattery": "Charge Battery",
-          "dischargebattery": "Discharge Battery",
-          "importpower": "Import Power",
-          "exportpower": "Export Power",
-          "conserve": "Conserve"
+      "reconfigure": {
+        "title": "Reauthenticate with your Redback Technologies credentials",
+        "data": {
+          "client_id": "Redback API Client ID",
+          "client_secret": "Redback API Client Secret",
+          "portal_email": "Redback Portal account email",
+          "portal_password": "Redback Portal account password",
+          "polling_interval": "Polling interval (seconds)",
+          "include_envelope": "Include Operating Envelopes"
         }
       }
     },
-    "services": {
-      "inverter_reset_to_auto": {
-        "name": "Inverter Reset to Auto",
-        "description": "Reset inverter to automatic mode",
-        "fields": {
-          "serial_number": {
-            "name": "Serial Number",
-            "description": "The serial number of the inverter."
-          }
-        }
-      },
-    "delete_all_schedules": {
-      "name": "Delete all Schedules",
-        "description": "Delete all inverter schedules",
-        "fields": {
-          "serial_number": {
-            "name": "Serial Number",
-            "description": "The serial number of the inverter."
-          }
-        }
-      },
-    "create_schedule": {
-      "name": "Create Schedules",
-        "description": "Create an inverter schedules",
-        "fields": {
-          "serial_number": {
-            "name": "Serial Number",
-            "description": "The serial number of the inverter."
-          },
-      "start_time": {
-            "name": "Start Time",
-            "description": "The start time"
-          },
-      "duration": {
-            "name": "Duration",
-            "description": "The duration for the schedule."
-          },
-      "power": {
-            "name": "Power Level",
-            "description": "The watts to set for the inverter."
-          },
-      "mode": {
-            "name": "Power Mode",
-            "description": "The power mode to set the inverter to."
-          }
-        }
-      },
-    "set_portal_mode": {
-      "name": "Set Portal Mode",
-        "description": "Set the portal mode",
-        "fields": {
-          "serial_number": {
-            "name": "Serial Number",
-            "description": "The serial number of the inverter."
-          },
-      "power": {
-            "name": "Power Level",
-            "description": "The watts to set for the inverter."
-          },
-      "mode1": {
-            "name": "Mode",
-            "description": "The mode to set the inverter to."
-          }
+    "error": {
+      "cannot_connect": "Failed to connect",
+      "invalid_auth": "Invalid authentication. Are your credentials correct?",
+      "no_devices": "No devices found on account",
+      "server_busy": "PetKit servers are busy. Please try again later.",
+      "petkit_error": "Unknown error encountered. Please see Home Assistant logs for more details.",
+      "region_error": "Please select the country associated with your account.",
+      "timezone_error": "A timezone could not be found. If you are running Home Assistant as a standalone Docker container, you must define the TZ environmental variable. If the TZ variable is defined or you are running Home Assistant OS, your timezone was not found in the tzlocal library - Please manually select a timezone during setup."
+    },
+    "abort": {
+      "already_configured": "Redback account is already configured",
+      "reauth_successful": "Reauthentication was successful"
+    }
+  },
+  "options": {
+    "step": {
+      "init":{
+        "title": "Integration Options",
+        "data" : {
+          "include_envelope": "Include Operating Envelopes",
+          "polling_interval": "Redback data Refresh Polling interval (seconds)"
         }
       }
     }
-  }
-  
-
+  },
+  "selector": {
+    "mode": {
+      "options": {
+        "chargebattery": "Charge Battery",
+        "dischargebattery": "Discharge Battery",
+        "importpower": "Import Power",
+        "exportpower": "Export Power",
+        "conserve": "Conserve",
+        "offgrid": "Off Grid",
+        "hibernate": "Hibernate",
+        "buypower": "Buy Power",
+        "sellpower": "Sell Power",
+        "forcechargebattery": "Force Charge Battery",
+        "forcedischargebattery": "Force Discharge Battery"
+      }
+    },
+    "mode1": {
+      "options": {
+        "auto": "Auto",
+        "chargebattery": "Charge Battery",
+        "dischargebattery": "Discharge Battery",
+        "importpower": "Import Power",
+        "exportpower": "Export Power",
+        "conserve": "Conserve"
+      }
+    }
+  },
+  "services": {
+    "inverter_reset_to_auto": {
+      "name": "Inverter Reset to Auto",
+      "description": "Reset inverter to automatic mode",
+      "fields": {
+        "serial_number": {
+          "name": "Serial Number",
+          "description": "The serial number of the inverter."
+        }
+      }
+    },
+  "delete_all_schedules": {
+    "name": "Delete all Schedules",
+      "description": "Delete all inverter schedules",
+      "fields": {
+        "serial_number": {
+          "name": "Serial Number",
+          "description": "The serial number of the inverter."
+        }
+      }
+    },
+  "create_schedule": {
+    "name": "Create Schedules",
+      "description": "Create an inverter schedules",
+      "fields": {
+        "serial_number": {
+          "name": "Serial Number",
+          "description": "The serial number of the inverter."
+        },
+    "start_time": {
+          "name": "Start Time",
+          "description": "The start time"
+        },
+    "duration": {
+          "name": "Duration",
+          "description": "The duration for the schedule."
+        },
+    "power": {
+          "name": "Power Level",
+          "description": "The watts to set for the inverter."
+        },
+    "mode": {
+          "name": "Power Mode",
+          "description": "The power mode to set the inverter to."
+        }
+      }
+    },
+  "set_portal_mode": {
+    "name": "Set Portal Mode",
+      "description": "Set the portal mode",
+      "fields": {
+        "serial_number": {
+          "name": "Serial Number",
+          "description": "The serial number of the inverter."
+        },
+    "power": {
+          "name": "Power Level",
+          "description": "The watts to set for the inverter."
+        },
+    "mode1": {
+          "name": "Mode",
+          "description": "The mode to set the inverter to."
+        }
+      }
+    },
+  "delete_all_envelopes": {
+    "name": "Delete all Operational Envelopes",
+      "description": "Delete all Operational Envelopes associated with your Redback account",
+      "fields": {
+        "site_id": {
+          "name": "Site Id",
+          "description": "Your Redback Site ID - find it in your device settings"
+        }
+      }
+    },
+  "delete_single_envelope":{
+    "name": "Delete Single Operational Envelope",
+      "description": "Delete a single Operational Envelope associated with your Redback account",
+      "fields": {
+        "site_id": {
+          "name": "Site Id",
+          "description": "Your Redback Site ID - find it in your device settings"
+        },
+        "event_id": {
+          "name": "Event Id",
+          "description": "The unique name of the Operating Envelope to delete"
+        }
+      }
+  },
+  "create_operating_envelope": {
+    "name": "Create Operating Envelope",
+      "description": "Create an operating envelope for the Redback Site",
+      "fields": {
+        "event_id": {
+          "name": "Event Id",
+          "description": "A unique name for the Operating Envelope"
+        },
+        "site_id": {
+          "name": "Site Id",
+          "description": "Your Redback Site ID - find it in your device settings"
+        },
+        "start_time": {
+          "name": "Start Time",
+          "description": "The date & time for the operating envelope to start"
+        },
+        "end_time": {
+          "name": "End Time",
+          "description": "The date & time for the operating envelope to end"
+        },
+        "max_import_power": {
+          "name": "Max Import Power Level",
+          "description": "The maximum import power level of the operating envelope in Watts"
+        },
+        "max_export_power": {
+          "name": "Max Export Power Level",
+          "description": "The maximum export power level of the operating envelope in Watts"
+        },
+        "max_charge_power": {
+          "name": "Max Charge Power Level",
+          "description": "The maximum charge power level of the operating envelope in Watts"
+        },
+        "max_discharge_power": {
+          "name": "Max Discharge Power Level",
+          "description": "The maximum discharge power level of the operating envelope in Watts"
+        },
+        "max_generation_power": {
+          "name": "Max Generation Power Level",
+          "description": "The maximum generation power level of the operating envelope in Voltage AMPS (watts)"
+        }
+      }
+    }
+  } 
+}

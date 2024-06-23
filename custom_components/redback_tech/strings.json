@@ -8,7 +8,8 @@
           "client_secret": "Redback API Client Secret",
           "portal_email": "Redback Portal account email",
           "portal_password": "Redback Portal account password",
-          "polling_interval": "Polling interval (seconds)"
+          "polling_interval": "Polling interval (seconds)",
+          "include_envelope": "Include Operating Envelopes"
         }
       },
       "reauth_confirm": {
@@ -18,7 +19,19 @@
           "client_secret": "Redback API Client Secret",
           "portal_email": "Redback Portal account email",
           "portal_password": "Redback Portal account password",
-          "polling_interval": "Polling interval (seconds)"
+          "polling_interval": "Polling interval (seconds)",
+          "include_envelope": "Include Operating Envelopes"
+        }
+      },
+      "reconfigure": {
+        "title": "Reauthenticate with your Redback Technologies credentials",
+        "data": {
+          "client_id": "Redback API Client ID",
+          "client_secret": "Redback API Client Secret",
+          "portal_email": "Redback Portal account email",
+          "portal_password": "Redback Portal account password",
+          "polling_interval": "Polling interval (seconds)",
+          "include_envelope": "Include Operating Envelopes"
         }
       }
     },
@@ -36,6 +49,17 @@
       "reauth_successful": "Reauthentication was successful"
     }
   },
+  "options": {
+    "step": {
+      "init":{
+        "title": "Integration Options",
+        "data" : {
+          "include_envelope": "Include Operating Envelopes",
+          "polling_interval": "Redback data Refresh Polling interval (seconds)"
+        }
+      }
+    }
+  },
   "selector": {
     "mode": {
       "options": {
@@ -43,7 +67,13 @@
         "dischargebattery": "Discharge Battery",
         "importpower": "Import Power",
         "exportpower": "Export Power",
-        "conserve": "Conserve"
+        "conserve": "Conserve",
+        "offgrid": "Off Grid",
+        "hibernate": "Hibernate",
+        "buypower": "Buy Power",
+        "sellpower": "Sell Power",
+        "forcechargebattery": "Force Charge Battery",
+        "forcedischargebattery": "Force Discharge Battery"
       }
     },
     "mode1": {
@@ -121,6 +151,72 @@
           "description": "The mode to set the inverter to."
         }
       }
+    },
+  "delete_all_envelopes": {
+    "name": "Delete all Operational Envelopes",
+      "description": "Delete all Operational Envelopes associated with your Redback account",
+      "fields": {
+        "site_id": {
+          "name": "Site Id",
+          "description": "Your Redback Site ID - find it in your device settings"
+        }
+      }
+    },
+  "delete_single_envelope":{
+    "name": "Delete Single Operational Envelope",
+      "description": "Delete a single Operational Envelope associated with your Redback account",
+      "fields": {
+        "site_id": {
+          "name": "Site Id",
+          "description": "Your Redback Site ID - find it in your device settings"
+        },
+        "event_id": {
+          "name": "Event Id",
+          "description": "The unique name of the Operating Envelope to delete"
+        }
+      }
+  },
+  "create_operating_envelope": {
+    "name": "Create Operating Envelope",
+      "description": "Create an operating envelope for the Redback Site",
+      "fields": {
+        "event_id": {
+          "name": "Event Id",
+          "description": "A unique name for the Operating Envelope"
+        },
+        "site_id": {
+          "name": "Site Id",
+          "description": "Your Redback Site ID - find it in your device settings"
+        },
+        "start_time": {
+          "name": "Start Time",
+          "description": "The date & time for the operating envelope to start"
+        },
+        "end_time": {
+          "name": "End Time",
+          "description": "The date & time for the operating envelope to end"
+        },
+        "max_import_power": {
+          "name": "Max Import Power Level",
+          "description": "The maximum import power level of the operating envelope in Watts"
+        },
+        "max_export_power": {
+          "name": "Max Export Power Level",
+          "description": "The maximum export power level of the operating envelope in Watts"
+        },
+        "max_charge_power": {
+          "name": "Max Charge Power Level",
+          "description": "The maximum charge power level of the operating envelope in Watts"
+        },
+        "max_discharge_power": {
+          "name": "Max Discharge Power Level",
+          "description": "The maximum discharge power level of the operating envelope in Watts"
+        },
+        "max_generation_power": {
+          "name": "Max Generation Power Level",
+          "description": "The maximum generation power level of the operating envelope in Voltage AMPS (watts)"
+        }
+      }
     }
-  }
+  } 
 }

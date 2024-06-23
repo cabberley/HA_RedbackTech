@@ -1,14 +1,11 @@
 """Sensor platform for Redback Tech integration."""
 from __future__ import annotations
-
 from typing import Any
 
 from homeassistant.components.binary_sensor import (
      BinarySensorEntity
 )
-     
 from homeassistant.config_entries import ConfigEntry
-
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -21,7 +18,7 @@ from .const import (
     LOGGER,
 )
 from .coordinator import RedbackTechDataUpdateCoordinator
-from .binary_sensor_inverter_properties import (
+from .binary_sensor_properties import (
     ENTITY_DETAILS
 )
 
@@ -93,8 +90,13 @@ class RedbackTechBinarySensorEntity(CoordinatorEntity, BinarySensorEntity):
     def icon(self) -> str:
         """Set icon for this entity, if provided in parameters."""
         if ENTITY_DETAILS[self.ent_key[7:]]['icon'] is not None:
-            return ENTITY_DETAILS[self.ent_key[7:]]['icon'] 
-        pass
+            return ENTITY_DETAILS[self.ent_key[7:]]['icon']
+        return
+
+    @property
+    def state_color(self):
+        """Return the state color."""
+        return True
 
     @property
     def entity_registry_visible_default(self) -> bool:

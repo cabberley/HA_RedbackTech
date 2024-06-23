@@ -1,5 +1,4 @@
 """DataUpdateCoordinator for the Redback Tech integration."""
-#Should be done. Now let's move on to the next file.
 from __future__ import annotations
 
 from datetime import timedelta
@@ -36,6 +35,7 @@ class RedbackTechDataUpdateCoordinator(DataUpdateCoordinator):
                 session1=async_get_clientsession(hass),
                 session2=async_get_clientsession(hass),
                 timeout=TIMEOUT,
+                include_envelopes=entry.options['include_envelope'],
             )
             super().__init__(
                 hass,

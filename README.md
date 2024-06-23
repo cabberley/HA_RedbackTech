@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="https://petkit.com"><img src="https://raw.githubusercontent.com/cabberley/ha_redbacktech/main/ha_redbacktech_logo.png" width="480"></a>
+  <a href="https://www.redbacktech.com"><img src="https://raw.githubusercontent.com/cabberley/ha_redbacktech/main/ha_redbacktech_logo.png" width="480"></a>
   <br>
   <i>Redback Smart Inverters Home Assistant Integration</i>
   <br>
@@ -34,6 +34,14 @@ This release of the integration adds some **MAJOR** enhancements!!
 - Supports multiple RedBack inverters on the same site
 - Supports multiple inverters on the same API Account
 - Creates an Inverter and a Battery devices for each inverter it finds (Adds the Battery device only if it finds batteries in your setup)
+- Supports and Creates Operating Envelopes. Refer to the wiki to find out more and understand what Operating Envelopes are!!
+
+## Version 2.6.7 updates
+
+- added support for Operating Envelopes, after loading the integration go to the Integration and select configure, and check the box to enable the device. Refer to the wiki for more details.
+- Fixed the Integration configuration flows. You can now correctly reconfigure the integration.
+- Code optimizations, including using the correct Redback API authentication.
+- Security, now uses correct OAuth2 Redback API authentication.
 
 ## Version 2.6.6 updates
 
@@ -135,10 +143,10 @@ On the Inverter Device are a set of buttons
 
 ### Quick start to using the inverter controls
 
-A simple trick to help get you started, if you go into your settings and devices, to the Inverter Device, there is an option in the group of 'Controls' to add them all to a dashboard in a suggested card. 
+A simple trick to help get you started, if you go into your settings and devices, to the Inverter Device, there is an option in the group of 'Controls' to add them all to a dashboard in a suggested card.
 
 ## TO DO LIST
 
 - Create a HA Calender to surface the all the scheduled events.
-- Use something more user friendly for the event ids in the Schedule Selector list.
 - Add control for the Relays on the SI model inverters
+- Convert API auth to Home Assistant OAuth managed credentials

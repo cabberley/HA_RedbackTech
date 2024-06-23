@@ -28,7 +28,7 @@ from .const import (
 
 )
 from .coordinator import RedbackTechDataUpdateCoordinator
-from .sensor_inverter_properties import (
+from .sensor_properties import (
     ENTITY_DETAILS,
 )
 
@@ -66,9 +66,8 @@ class RedbackTechSensorEntity(CoordinatorEntity, SensorEntity):
         """Handle coordinator data for entities."""
         return self.coordinator.data.entities[self.ent_key]
 
-
     @property
-    def device_info(self) -> dict[str, Any]:
+    def device_info(self) ->  dict[str, Any]:
         """Return device registry information for this entity."""
         return {
             "identifiers": {(DOMAIN, redback_devices[self.ent_id].identifiers)},  
@@ -95,12 +94,12 @@ class RedbackTechSensorEntity(CoordinatorEntity, SensorEntity):
     def name(self) -> str:
         """Return the name of the entity."""
         return ENTITY_DETAILS[self.ent_key[7:]]['name'] 
-    
+
     @property
     def native_value(self) -> float:
         """Return the state of the entity."""
         return self.ent_data.data['value']
-    
+
     @property
     def entity_registry_visible_default(self) -> bool:
         """Return whether the entity should be visible by default."""
@@ -109,14 +108,14 @@ class RedbackTechSensorEntity(CoordinatorEntity, SensorEntity):
         elif self.ent_data.data['value'] is None:
             return False    
         return True
-    
+
     @property
     def entity_registry_enabled_default(self) -> bool:
         """Return whether the entity should be enabled by default."""
         if ENTITY_DETAILS[self.ent_key[7:]]['enabled']:
             return True
         elif self.ent_data.data['value'] is None:
-            return False    
+            return False
         return True
 
     @property
@@ -124,35 +123,32 @@ class RedbackTechSensorEntity(CoordinatorEntity, SensorEntity):
         """Return native Unit of Measurement for this entity."""
         if ENTITY_DETAILS[self.ent_key[7:]]['unit'] is not None:
             return ENTITY_DETAILS[self.ent_key[7:]]['unit'] 
-        pass
+        return
 
     @property
     def device_class(self) -> SensorDeviceClass:
         """Return entity device class."""
         if ENTITY_DETAILS[self.ent_key[7:]]['device_class'] is not None:
             return ENTITY_DETAILS[self.ent_key[7:]]['device_class'] 
-        pass
+        return
 
-    
     @property 
     def suggested_display_precision(self) -> int:
         """Return the suggested precision for the value."""
         if ENTITY_DETAILS[self.ent_key[7:]]['display_precision'] is not None:
             return ENTITY_DETAILS[self.ent_key[7:]]['display_precision'] #3
-        pass
+        return
 
     @property
     def state_class(self) -> SensorStateClass:
         """Return the type of state class."""
         if ENTITY_DETAILS[self.ent_key[7:]]['state_class']  is not None:
             return ENTITY_DETAILS[self.ent_key[7:]]['state_class']
-        pass
+        return
 
     @property
     def entity_category(self) -> EntityCategory:
         """Set category to diagnostic."""
         if ENTITY_DETAILS[self.ent_key[7:]]['category']  is not  None:
             return EntityCategory.DIAGNOSTIC
-        pass
-
-
+        return

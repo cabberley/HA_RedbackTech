@@ -1,8 +1,5 @@
 """Sensor platform for Redback Tech integration."""
 from __future__ import annotations
-
-#from datetime import datetime, timezone
-from math import floor as floor
 from typing import Any
 
 from redbacktechpy.model import Numbers
@@ -27,7 +24,7 @@ from .const import (
 
 )
 from .coordinator import RedbackTechDataUpdateCoordinator
-from .number_inverter_properties import (
+from .number_properties import (
     ENTITY_DETAILS
 )
 
@@ -100,7 +97,7 @@ class RedbackTechNumberEntity(CoordinatorEntity, NumberEntity):
         """Set icon for this entity, if provided in parameters."""
         if ENTITY_DETAILS[self.ent_key[7:]]['icon'] is not None:
             return ENTITY_DETAILS[self.ent_key[7:]]['icon'] 
-        pass
+        return
 
     @property
     def entity_registry_visible_default(self) -> bool:
@@ -128,14 +125,14 @@ class RedbackTechNumberEntity(CoordinatorEntity, NumberEntity):
         """Return native Unit of Measurement for this entity."""
         if ENTITY_DETAILS[self.ent_key[7:]]['unit'] is not None:
             return ENTITY_DETAILS[self.ent_key[7:]]['unit'] 
-        pass
+        return
 
     @property
     def device_class(self) -> NumberDeviceClass:
         """Return entity device class."""
         if ENTITY_DETAILS[self.ent_key[7:]]['device_class'] is not None:
             return ENTITY_DETAILS[self.ent_key[7:]]['device_class'] 
-        pass
+        return
 
     @property
     def mode(self) -> NumberMode:
@@ -151,8 +148,6 @@ class RedbackTechNumberEntity(CoordinatorEntity, NumberEntity):
     @property
     def native_max_value(self) -> float:
         """Return max value allowed."""
-        LOGGER.debug(f'max Value data: {redback_entity_details[self.ent_id+'inverter_max_export_power_kw'].data['value']}')
-        LOGGER.debug(f'max Value data: {self.ent_id}inverter_max_export_power_kw')
         if ENTITY_DETAILS[self.ent_key[7:]]== 'power_setting_watts':
             if redback_entity_details[self.ent_id+'inverter_max_export_power_kw'].data['value'] is not None:
                 return redback_entity_details[self.ent_id+'inverter_max_export_power_kw'].data['value']*1000
@@ -170,12 +165,24 @@ class RedbackTechNumberEntity(CoordinatorEntity, NumberEntity):
 
     async def async_set_native_value(self, value: int) -> None:
         """Update the current value."""
-        LOGGER.debug(f'number_data: {self.ent_data}')
-        LOGGER.debug(f'number_value: {value}')
-        LOGGER.debug(self.ent_data.data['value'])
-        LOGGER.debug(self.ent_data.data['device_id'])
-        
+        value = int(value)
         self.ent_data.data['value'] = value
-        
-        await self.coordinator.client.update_inverter_control_values( self.ent_data.data['device_id'], self.ent_data.data['entity_name'], value)
+        LOGGER.debug('ent_data_value updated: %s',self.ent_data.data['value'])
+        if self.ent_key[-3:] == 'inv':
+            await self.coordinator.client.update_inverter_control_values( self.ent_data.data['device_id'], self.ent_data.data['entity_name'], value)
+        elif self.ent_key[4:7]  == 'env':
+            LOGGER.debug('reached env')
+            if self.ent_data.data['entity_name'] == 'op_env_create_max_import':
+                LOGGER.debug('max_import')
+                await self.coordinator.client.update_op_envelope_values( self.ent_data.data['device_id'], 'MaxImportPowerW', value)
+            elif self.ent_data.data['entity_name'] == 'op_env_create_max_export':
+                LOGGER.debug('max_export')
+                await self.coordinator.client.update_op_envelope_values( self.ent_data.data['device_id'], 'MaxExportPowerW', value)
+            elif self.ent_data.data['entity_name'] == 'op_env_create_max_discharge':
+                await self.coordinator.client.update_op_envelope_values( self.ent_data.data['device_id'], 'MaxDischargePowerW', value)
+            elif self.ent_data.data['entity_name'] == 'op_env_create_max_charge':
+                await self.coordinator.client.update_op_envelope_values( self.ent_data.data['device_id'], 'MaxChargePowerW', value)
+            elif self.ent_data.data['entity_name'] == 'op_env_create_max_generation':
+                await self.coordinator.client.update_op_envelope_values( self.ent_data.data['device_id'], 'MaxGenerationPowerVA', value)
+                
         self.async_write_ha_state()

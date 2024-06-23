@@ -1,14 +1,12 @@
 """Redback Tech Component."""
-#Should be done. Now let's move on to the next file.
 from __future__ import annotations
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceEntry
 
 from .const import DOMAIN, LOGGER, REDBACKTECH_COORDINATOR, PLATFORMS, UPDATE_LISTENER
 from .coordinator import RedbackTechDataUpdateCoordinator
-
-
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up RedbackTech from a config entry."""
@@ -22,22 +20,42 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     LOGGER.info("New Redback Tech integration is setup (entry_id=%s)", entry.entry_id)
-    
-    update_listener = entry.add_update_listener(async_update_options)
-    hass.data[DOMAIN][entry.entry_id][UPDATE_LISTENER] = update_listener
+
+    entry.async_on_unload(entry.add_update_listener(update_listener))
 
     return True
+
+async def update_listener(hass: HomeAssistant, entry: ConfigEntry):
+    """Handle options update."""
+    LOGGER.debug("Options updated: %s", entry.options)
+    LOGGER.debug("Options updated: %s", entry.entry_id)
+
+    await hass.config_entries.async_reload(entry.entry_id)
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload RedbackTech config entry."""
 
-    if unload_ok := await hass.config_entries.async_unload_platforms(entry, PLATFORMS):
-        del hass.data[DOMAIN][entry.entry_id]
-        if not hass.data[DOMAIN]:
-            del hass.data[DOMAIN]
+    unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
     return unload_ok
 
 async def async_update_options(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """ Update options. """
 
     await hass.config_entries.async_reload(entry.entry_id)
+
+async def async_remove_config_entry_device(hass: HomeAssistant, entry: ConfigEntry, device_entry: DeviceEntry) -> bool:
+    """Remove RedbackTech config entry."""
+    return True
+
+
+async def async_migrate_entry(hass, entry: ConfigEntry):
+    """Migrate outdated Redback config entry."""
+    LOGGER.debug("Migrating config entry from version %s", entry.version)
+    
+    if entry.version == 1:
+        data = {**entry.data}
+        version = entry.version + 1
+        data['include_envelope'] = False
+        hass.config_entries.async_update_entry(entry, data=data, options=entry.options, version=version)
+    LOGGER.info("Successful migration of config entry to version %s", entry.version)
+    return True

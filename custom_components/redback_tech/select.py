@@ -1,19 +1,13 @@
 """Sensor platform for Redback Tech integration."""
 from __future__ import annotations
-
-#from datetime import datetime, timezone
-from math import floor as floor
 from typing import Any
 
 from redbacktechpy.model import Numbers
 
 from homeassistant.components.select import (
-    
     SelectEntity,
-
 )
 from homeassistant.config_entries import ConfigEntry
-
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -27,7 +21,7 @@ from .const import (
 
 )
 from .coordinator import RedbackTechDataUpdateCoordinator
-from .select_inverter_properties import (
+from .select_properties import (
     ENTITY_DETAILS
 )
 
@@ -36,11 +30,11 @@ async def async_setup_entry(
 ) -> None:
     """Set Up Redback Tech Sensor Entities."""
     global redback_devices 
-    
+
     coordinator: RedbackTechDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][REDBACKTECH_COORDINATOR]
 
     redback_devices = coordinator.data.devices    
-    
+
     selects = []
 
     entity_keys = coordinator.data.selects.keys()
@@ -49,9 +43,8 @@ async def async_setup_entry(
         LOGGER.debug(f'Select Key Match: {entity_key}')
         if entity_key[7:] in  ENTITY_DETAILS: 
             selects.extend([RedbackTechSelectsEntity(coordinator, entity_key)])
-    
     async_add_entities(selects)
-    
+
 class RedbackTechSelectsEntity(CoordinatorEntity, SelectEntity):
     """Representation of Number."""
 
@@ -104,7 +97,7 @@ class RedbackTechSelectsEntity(CoordinatorEntity, SelectEntity):
         """Set icon for this entity, if provided in parameters."""
         if ENTITY_DETAILS[self.ent_key[7:]]['icon'] is not None:
             return ENTITY_DETAILS[self.ent_key[7:]]['icon'] 
-        pass
+        return
 
     @property
     def current_option(self) -> str:
@@ -126,5 +119,7 @@ class RedbackTechSelectsEntity(CoordinatorEntity, SelectEntity):
             await self.coordinator.client.update_inverter_control_values( self.ent_data.data['device_id'], self.ent_data.data['entity_name'], option)
         elif self.ent_key[7:] == 'schedule_id_selected':
             await self.coordinator.client.update_selected_schedule_id( self.ent_data.data['device_id'], option)
+        elif self.ent_key[7:] == 'op_env_id_selected':
+            await self.coordinator.client.update_selected_op_env_id( self.ent_data.data['device_id'], option)
         self.async_write_ha_state()
         await self.coordinator.async_request_refresh()

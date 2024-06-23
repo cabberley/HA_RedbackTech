@@ -190,7 +190,9 @@ class RedbackTechButtonEntity(CoordinatorEntity, ButtonEntity):
 
     async def async_press(self) -> None:
         """Update the current value."""
+        LOGGER.debug('select_data: %s', self.ent_key[:7])
         if self.ent_key[7:] =='create_schedule_event':
+            LOGGER.debug('create_schedule_event: %s', redback_devices[self.ent_id].identifiers)
             await self.coordinator.client.set_inverter_schedule( redback_devices[self.ent_id].identifiers)
         elif self.ent_key[7:] =='delete_all_schedule_events':
             #self.select_data = None

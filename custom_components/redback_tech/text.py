@@ -142,3 +142,4 @@ class RedbackTechTextEntity(CoordinatorEntity, TextEntity):
             await self.coordinator.client.update_op_envelope_values( self.ent_data.data['device_id'], 'EventId', value)
 
         self.async_write_ha_state()
+        #await self.coordinator.async_request_refresh()

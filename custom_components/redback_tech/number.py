@@ -168,7 +168,11 @@ class RedbackTechNumberEntity(CoordinatorEntity, NumberEntity):
         value = int(value)
         self.ent_data.data['value'] = value
         LOGGER.debug('ent_data_value updated: %s',self.ent_data.data['value'])
-        if self.ent_key[-3:] == 'inv':
+        LOGGER.debug('datetime_ent_key: %s',self.ent_key)
+        LOGGER.debug('datetime_ent_key[-3:]: %s',self.ent_key[-3:])
+        LOGGER.debug('datetime_ent_key[4:7]: %s',self.ent_key[4:7])
+        
+        if self.ent_key[4:7] == 'inv':
             await self.coordinator.client.update_inverter_control_values( self.ent_data.data['device_id'], self.ent_data.data['entity_name'], value)
         elif self.ent_key[4:7]  == 'env':
             LOGGER.debug('reached env')
@@ -186,3 +190,4 @@ class RedbackTechNumberEntity(CoordinatorEntity, NumberEntity):
                 await self.coordinator.client.update_op_envelope_values( self.ent_data.data['device_id'], 'MaxGenerationPowerVA', value)
                 
         self.async_write_ha_state()
+        #await self.coordinator.async_request_refresh()

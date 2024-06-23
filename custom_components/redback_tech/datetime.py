@@ -116,7 +116,11 @@ class RedbackTechDateTimeEntity(CoordinatorEntity, DateTimeEntity):
     async def async_set_value(self, value: datetime) -> None:
         """Update the current value."""
         self.ent_data.data['value'] = value
-        if self.ent_key[-3:] == 'inv':
+        LOGGER.debug('datetime_ent_key: %s',self.ent_key)
+        LOGGER.debug('datetime_ent_key[-3:]: %s',self.ent_key[-3:])
+        LOGGER.debug('datetime_ent_key[4:7]: %s',self.ent_key[4:7])
+        
+        if self.ent_key[4:7] == 'inv':
             await self.coordinator.client.update_inverter_control_values( self.ent_data.data['device_id'], 'start_time', value)
         elif self.ent_key[4:7] == 'env':
             if self.ent_data.data['entity_name'] == 'op_env_create_start_time':
@@ -125,4 +129,5 @@ class RedbackTechDateTimeEntity(CoordinatorEntity, DateTimeEntity):
                 await self.coordinator.client.update_op_envelope_values( self.ent_data.data['device_id'], 'EndAtUtc', value)
 
         self.async_write_ha_state()
+        #await self.coordinator.async_request_refresh()
 

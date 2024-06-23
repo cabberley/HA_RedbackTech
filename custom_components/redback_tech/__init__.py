@@ -52,10 +52,11 @@ async def async_migrate_entry(hass, entry: ConfigEntry):
     """Migrate outdated Redback config entry."""
     LOGGER.debug("Migrating config entry from version %s", entry.version)
     
-    if entry.version == 1:
+    if entry.version < 3:
         data = {**entry.data}
         version = entry.version + 1
-        data['include_envelope'] = False
-        hass.config_entries.async_update_entry(entry, data=data, options=entry.options, version=version)
+        options = {**entry.options}
+        options['include_envelope'] = False
+        hass.config_entries.async_update_entry(entry, data=data, options=options, version=version)
     LOGGER.info("Successful migration of config entry to version %s", entry.version)
     return True

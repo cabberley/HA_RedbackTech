@@ -30,7 +30,7 @@ DATA_SCHEMA = vol.Schema(
 class RedbackTechConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Redback Technologies config flow."""
 
-    VERSION = 2
+    VERSION = 3
     CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
 
     entry: config_entries.ConfigEntry | None

@@ -7,6 +7,7 @@ ENTITY_DETAILS = {
     'delete_current_schedule_event':{ 'name':'Delete Selected Schedule','unit':None,'icon':None,'device_class':None,'state_class':None,'display_precison':None,'options':None,'mode':None,'category':None},
     'reset_inverter_to_auto':{ 'name':'Reset Inverter To AUTO','unit':None,'icon':None,'device_class':None,'state_class':None,'display_precison':None,'options':None,'mode':None,'category':None},
     'reset_start_time_to_now':{ 'name':'Reset Start Time To Now','unit':None,'icon':None,'device_class':None,'state_class':None,'display_precison':None,'options':None,'mode':None,'category':None},
+    'set_inverter_via_portal':{ 'name':'Set Inverter via Portal','unit':None,'icon':None,'device_class':None,'state_class':None,'display_precison':None,'options':None,'mode':None,'category':None},
 }
 ENTITY_ENVELOPE_DETAILS = {
     'create_envelope_event':{ 'name':'Create Envelope','unit':None,'icon':None,'device_class':None,'state_class':None,'display_precison':None,'options':None,'mode':None,'category':None},

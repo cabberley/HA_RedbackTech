@@ -28,19 +28,23 @@
 > **Please make sure you read and understand the information below on how this integration controls your inverter!**
 
 This release of the integration adds some **MAJOR** enhancements!!
+**This Integration is the only way I know of to curtail your Redback Exports to avoid negative Feed in Tariffs**
 
-- **Supports Controlling your Inverter, more details below!**
+## This HACS Integration for Redback Technologies Enables you to manage your Redback system
+
+- You can curtail your Redback to avoid Negative FIT - using Operating Envelopes!
 - Supports multiple API Accounts
 - Supports multiple RedBack inverters on the same site
 - Supports multiple inverters on the same API Account
-- Creates an Inverter and a Battery devices for each inverter it finds (Adds the Battery device only if it finds batteries in your setup)
+- Supports setting up Schedules to manage your Inverter's operations at defined times and durations
 - Supports and Creates Operating Envelopes. Refer to the wiki to find out more and understand what Operating Envelopes are!!
+- Creates an Inverter and a Battery devices for each inverter it finds (Adds the Battery device only if it finds batteries in your setup)
 
 ## Version 2.6.7 updates
 
-- added support for Operating Envelopes, after loading the integration go to the Integration and select configure, and check the box to enable the device. Refer to the wiki for more details.
+- Added support for Operating Envelopes, after loading the integration go to the Integration and select configure, and check the box to enable the device. Refer to the wiki for more details.
 - Fixed the Integration configuration flows. You can now correctly reconfigure the integration.
-- Code optimizations, including using the correct Redback API authentication.
+- Code optimizations, including using the correct Redback API authentication endpoints.
 - Security, now uses correct OAuth2 Redback API authentication.
 
 ## Version 2.6.6 updates
@@ -56,7 +60,7 @@ This release of the integration adds some **MAJOR** enhancements!!
 - fixed an URGENT issue with Token expiration logic prematurely timing out and renewing the token, was causing HTTP 500 errors sproadicly.
 - fix to support Redback SI series inverters, was crashing the device creation process due to them not using the historical 'Schedule APIs'
 
-## Verion 2.6.3 updates
+## Version 2.6.3 updates
 
 - Added new sensors to display information about currently active scheduled event
 - Added Services to enable calling several functions
@@ -90,6 +94,25 @@ Complete the form and submit.
 - Redback Portal Password
 
 If successful you should now find devices for all your Inverters and Battery stacks.
+
+### Additional configuration options/steps
+
+After your initial integration setup is complete, there are several optional settings you can enable. If navigate to the Device screen as soon below and click on Configure, an options dialog will pop up.
+
+![Redback Device Screen](./images/image.png)
+
+The current options available are:
+
+- Refresh Polling: Adjusting the default 60 seconds between updates. DO NOT SET THIS BELOW 60 seconds. The Redback Inverters only update once every 60 seconds.
+- Include Operating Envelopes: This will add a new Site level device for managing Redback Operating Envelopes. Refer tot he WIKI topic to understand more.
+- Enable Portal Inverter Set: This adds an additional button to your Inverter Device, that can set the Mode and Power level without a time limit.
+  
+![Options Dialog Box](./images/options.png)
+
+Make your changes and then submit, the integration will reload with the new options.
+
+>[!TIP]
+>If you deselect an option previously enabled, the associated device for operating envelope or button for Enable Portal Inverter set will still show up on your system, you need to delete them afterwards to remove them completely from your setup.
 
 ## Controlling your Inverter with the Integration
 

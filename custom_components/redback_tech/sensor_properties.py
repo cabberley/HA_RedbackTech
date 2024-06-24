@@ -18,7 +18,8 @@ from homeassistant.const import(
     UnitOfFrequency,
     UnitOfTemperature,
     UnitOfElectricPotential,
-    UnitOfTime
+    UnitOfTime,
+    UnitOfApparentPower,
 )
 
 from homeassistant.helpers.entity import EntityCategory
@@ -168,6 +169,33 @@ ENTITY_DETAILS = {
     'active_event_inverter_mode':{ 'name':'Active Event Inverter Mode','unit':None,'icon':None,'device_class':SensorDeviceClass.ENUM,'state_class':None,'display_precision':None,'options':INVERTER_MODES,'mode':None,'category':None,'visible':True,'enabled':True},
     'active_event_power_w':{ 'name':'Active Event Power Level','unit':UnitOfPower.WATT,'icon':None,'device_class':SensorDeviceClass.POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':None,'category':None,'visible':True,'enabled':True},
     'pv_generation_instantaneous_percent_capacity':{ 'name':'PV Capacity Percent Generating Instantaneous ','unit':PERCENTAGE,'icon':None,'device_class':None,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':None,'category':None,'visible':True,'enabled':True},
+    'op_env_active_event_id':{ 'name':'Active Envelope ID','unit':None,'icon':'None','device_class':None,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_active_nmi':{ 'name':'Active Envelope NMI','unit':None,'icon':'None','device_class':None,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_active_site_id':{ 'name':'Active Envelope Site ID','unit':None,'icon':'None','device_class':None,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_active_start_datetime':{ 'name':'Active Envelope Start Time','unit':None,'icon':'None','device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_active_end_datetime':{ 'name':'Active Envelope End Time','unit':None,'icon':'None','device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_active_max_import_power_w':{ 'name':'Active Envelope Set Max Import Power W','unit':UnitOfPower.WATT,'icon':'None','device_class':SensorDeviceClass.POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_active_max_export_power_w':{ 'name':'Active Envelope Set Max Export Power W','unit':UnitOfPower.WATT,'icon':'None','device_class':SensorDeviceClass.POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_active_max_discharge_power_w':{ 'name':'Active Envelope Set Max Discharge Power W','unit':UnitOfPower.WATT,'icon':'None','device_class':SensorDeviceClass.POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_active_max_charge_power_w':{ 'name':'Active Envelope Set Max Charge Power W','unit':UnitOfPower.WATT,'icon':'None','device_class':SensorDeviceClass.POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_active_max_generation_power_va':{ 'name':'Active Envelope Set Max Generation Power VA','unit':UnitOfApparentPower.VOLT_AMPERE,'icon':'None','device_class':SensorDeviceClass. APPARENT_POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_active_reported_start_datetime':{ 'name':'Active Envelope Reported Start Time','unit':None,'icon':'None','device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_active_reported_finished_datetime':{ 'name':'Active Envelope Reported End Time','unit':None,'icon':'None','device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_active_status':{ 'name':'Active Envelope Status','unit':None,'icon':'None','device_class':None,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_selected_start_time':{ 'name':'Selected Envelope Start Time','unit':None,'icon':'None','device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_selected_end_time':{ 'name':'Selected Envelope End Time','unit':None,'icon':'None','device_class':SensorDeviceClass.TIMESTAMP,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_selected_event_id':{ 'name':'Selected Envelope ID','unit':None,'icon':'None','device_class':None,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_selected_nmi':{ 'name':'Selected Envelope NMI','unit':None,'icon':'None','device_class':None,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_selected_site_id':{ 'name':'Selected Envelope Site ID','unit':None,'icon':'None','device_class':None,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_selected_max_import_power_w':{ 'name':'Selected Envelope Set Max Import Power W','unit':UnitOfPower.WATT,'icon':'None','device_class':SensorDeviceClass.POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_selected_max_export_power_w':{ 'name':'Selected Envelope Set Max Export Power W','unit':UnitOfPower.WATT,'icon':'None','device_class':SensorDeviceClass.POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_selected_max_discharge_power_w':{ 'name':'Selected Envelope Set Max Discharge Power W','unit':UnitOfPower.WATT,'icon':'None','device_class':SensorDeviceClass.POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_selected_max_charge_power_w':{ 'name':'Selected Envelope Set Max Charge Power W','unit':UnitOfPower.WATT,'icon':'None','device_class':SensorDeviceClass.POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_selected_max_generation_power_va':{ 'name':'Selected Envelope Set Max Generation Power VA','unit':UnitOfApparentPower.VOLT_AMPERE,'icon':'None','device_class':SensorDeviceClass.APPARENT_POWER,'state_class':SensorStateClass.MEASUREMENT,'display_precision':0,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_selected_status':{ 'name':'Selected Envelope Status','unit':None,'icon':'None','device_class':None,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_selected_schedule_selector':{ 'name':'Selected Envelope','unit':None,'icon':'None','device_class':None,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':None,'visible':True,'enabled':True},
+    'op_env_count':{ 'name':'Number of Envelopes Registered','unit':None,'icon':'None','device_class':None,'state_class':None,'display_precision':None,'options':None,'mode':'None','category':EntityCategory.DIAGNOSTIC,'visible':True,'enabled':True},
+
 }
 
 SCHEDULE_DETAILS = {

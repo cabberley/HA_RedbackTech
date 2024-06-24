@@ -5,8 +5,8 @@ from typing import Any
 
 from redbacktechpy.model import Numbers
 
-from homeassistant.components.select import (
-    SelectEntity,
+from homeassistant.components.text import (
+    TextEntity,
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
@@ -15,33 +15,32 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN, REDBACKTECH_COORDINATOR, REDBACK_PORTAL, MANUFACTURER, LOGGER
 from .coordinator import RedbackTechDataUpdateCoordinator
-from .select_properties import ENTITY_DETAILS
+from .text_properties import ENTITY_DETAILS
 
 
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     """Set Up Redback Tech Sensor Entities."""
-    global redback_devices
+    global redback_devices, redback_entity_details
 
     coordinator: RedbackTechDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][
         REDBACKTECH_COORDINATOR
     ]
 
     redback_devices = coordinator.data.devices
+    redback_entity_details = coordinator.data.entities
+    numbers = []
 
-    selects = []
-
-    entity_keys = coordinator.data.selects.keys()
-    LOGGER.debug(f"Select Key Match: {entity_keys}")
+    entity_keys = coordinator.data.text.keys()
     for entity_key in entity_keys:
-        LOGGER.debug(f"Select Key Match: {entity_key}")
         if entity_key[7:] in ENTITY_DETAILS:
-            selects.extend([RedbackTechSelectsEntity(coordinator, entity_key)])
-    async_add_entities(selects)
+            numbers.extend([RedbackTechTextEntity(coordinator, entity_key)])
+
+    async_add_entities(numbers)
 
 
-class RedbackTechSelectsEntity(CoordinatorEntity, SelectEntity):
+class RedbackTechTextEntity(CoordinatorEntity, TextEntity):
     """Representation of Number."""
 
     def __init__(self, coordinator, entity_key):
@@ -49,22 +48,20 @@ class RedbackTechSelectsEntity(CoordinatorEntity, SelectEntity):
         self.ent_id = entity_key[:7]
         self.ent_key = entity_key
         self.entity_id = (
-            "select.rb"
+            "text.rb"
             + self.ent_id[:4]
             + "_"
             + self.ent_id[-3:].lower()
             + "_"
             + ENTITY_DETAILS[self.ent_key[7:]]["name"]
         )
-        LOGGER.debug(f"select_data1: {self.ent_data}")
-        LOGGER.debug(f"select_data2: {self.ent_id}")
-        LOGGER.debug(f"select_data2: {self.entity_id}")
+        LOGGER.debug("text_data1: %s", self.ent_data)
+        LOGGER.debug("text_ent_id: %s", self.ent_id)
 
     @property
     def ent_data(self) -> Numbers:
         """Handle coordinator data for entities."""
-        LOGGER.debug(f"select_data22: {self.coordinator.data.selects[self.ent_key]}")
-        return self.coordinator.data.selects[self.ent_key]
+        return self.coordinator.data.text[self.ent_key]
 
     @property
     def device_info(self) -> dict[str, Any]:
@@ -103,34 +100,51 @@ class RedbackTechSelectsEntity(CoordinatorEntity, SelectEntity):
         return
 
     @property
-    def current_option(self) -> str:
-        """Return the current option."""
-        return self.ent_data.data["value"]
+    def entity_registry_visible_default(self) -> bool:
+        """Return whether the entity should be visible by default."""
+        return True
 
     @property
-    def options(self) -> list[str]:
-        """Return the list of available options."""
-        LOGGER.debug(f'options_data: {str(self.ent_data.data['options'])}')
-        return self.ent_data.data["options"]
+    def entity_registry_enabled_default(self) -> bool:
+        """Return whether the entity should be enabled by default."""
+        return True
 
-    async def async_select_option(self, option: str) -> None:
+    @property
+    def native_value(self) -> float:
+        """Return the state of the entity."""
+        LOGGER.debug("native Value : %s", self.ent_data.data["value"])
+        value = self.ent_data.data["value"]
+        return value
+
+    @property
+    def mode(self):
+        """Return box mode."""
+
+        return "text"
+
+    @property
+    def native_min(self) -> float:
+        """Return minimum allowed value."""
+        if ENTITY_DETAILS[self.ent_key[7:]]["native_min"] is not None:
+            return ENTITY_DETAILS[self.ent_key[7:]]["native_min"]
+        pass
+
+    @property
+    def native_max(self) -> float:
+        """Return minimum allowed value."""
+        if ENTITY_DETAILS[self.ent_key[7:]]["native_max"] is not None:
+            return ENTITY_DETAILS[self.ent_key[7:]]["native_max"]
+        return
+
+    async def async_set_value(self, value: str) -> None:
         """Update the current value."""
+        self.ent_data.data["value"] = value
+        LOGGER.debug("ent_data_value updated: %s", self.ent_data.data["value"])
+        if self.ent_data.data["entity_name"] == "op_env_create_event_id":
+            LOGGER.debug("max_import")
+            await self.coordinator.client.update_op_envelope_values(
+                self.ent_data.data["device_id"], "EventId", value
+            )
 
-        LOGGER.debug(f"number_data: {self.ent_data}")
-        LOGGER.debug(f"number_value: {option}")
-        if self.ent_key[7:] == "power_setting_mode":
-            await self.coordinator.client.update_inverter_control_values(
-                self.ent_data.data["device_id"],
-                self.ent_data.data["entity_name"],
-                option,
-            )
-        elif self.ent_key[7:] == "schedule_id_selected":
-            await self.coordinator.client.update_selected_schedule_id(
-                self.ent_data.data["device_id"], option
-            )
-        elif self.ent_key[7:] == "op_env_id_selected":
-            await self.coordinator.client.update_selected_op_env_id(
-                self.ent_data.data["device_id"], option
-            )
         self.async_write_ha_state()
-        await self.coordinator.async_request_refresh()
+        # await self.coordinator.async_request_refresh()

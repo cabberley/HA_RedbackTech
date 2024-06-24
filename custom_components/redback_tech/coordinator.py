@@ -1,5 +1,5 @@
 """DataUpdateCoordinator for the Redback Tech integration."""
-#Should be done. Now let's move on to the next file.
+
 from __future__ import annotations
 
 from datetime import timedelta
@@ -10,7 +10,10 @@ from redbacktechpy.model import RedbackTechData
 
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_CLIENT_SECRET, CONF_CLIENT_ID
+from homeassistant.const import (
+    CONF_CLIENT_SECRET,
+    CONF_CLIENT_ID,
+)
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -29,13 +32,14 @@ class RedbackTechDataUpdateCoordinator(DataUpdateCoordinator):
 
         try:
             self.client = RedbackTechClient(
-                portal_email=entry.data['portal_email'],
-                portal_password=entry.data['portal_password'],
+                portal_email=entry.data["portal_email"],
+                portal_password=entry.data["portal_password"],
                 client_id=entry.data[CONF_CLIENT_ID],
                 client_secret=entry.data[CONF_CLIENT_SECRET],
                 session1=async_get_clientsession(hass),
                 session2=async_get_clientsession(hass),
                 timeout=TIMEOUT,
+                include_envelopes=entry.options["include_envelope"],
             )
             super().__init__(
                 hass,
@@ -50,10 +54,10 @@ class RedbackTechDataUpdateCoordinator(DataUpdateCoordinator):
         """Fetch data from Redback Tech."""
         try:
             data = await self.client.get_redback_data()
-            LOGGER.debug(f'Found the following Redback devices: {data}')
-        except (AuthError) as error:
+            LOGGER.debug("Found the following Redback devices: %s", data)
+        except AuthError as error:
             raise ConfigEntryAuthFailed(error) from error
-        except (RedbackTechClientError) as error:
+        except RedbackTechClientError as error:
             raise UpdateFailed(error) from error
         else:
             return data

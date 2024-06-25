@@ -18,12 +18,13 @@ REDBACKTECH_COORDINATOR = "redbacktech_coordinator"
 REDBACK_PORTAL = "https://portal.redbacktech.com"
 MANUFACTURER = "Redback Technologies"
 PLATFORMS = [
-    Platform.SENSOR,
+    Platform.BINARY_SENSOR,
+    Platform.BUTTON,
+    Platform.CALENDAR,
+    Platform.DATETIME,
     Platform.NUMBER,
     Platform.SELECT,
-    Platform.DATETIME,
-    Platform.BUTTON,
-    Platform.BINARY_SENSOR,
+    Platform.SENSOR,
     Platform.TEXT,
 ]
 

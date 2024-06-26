@@ -96,7 +96,7 @@ async def async_setup_entry(
         await coordinator.async_request_refresh()
 
     async def handle_set_portal_mode(call):
-        device_id = call.data.get("serial_number")[-4:]  # +'inv'
+        device_id = call.data.get("serial_number")[-4:]
         mode = call.data.get("mode1")
         power = call.data.get("power")
         if mode.lower() == "auto":
@@ -189,7 +189,7 @@ class RedbackTechButtonEntity(CoordinatorEntity, ButtonEntity):
             + "_"
             + ENTITY_DETAILS[self.ent_key[7:]]["name"]
         )
-        LOGGER.debug(f"datetime_data2: {self.ent_id}")
+        LOGGER.debug("datetime_data2: %s", self.ent_id)
 
     @property
     def select_data(self):
@@ -270,7 +270,6 @@ class RedbackTechButtonEntity(CoordinatorEntity, ButtonEntity):
                 redback_devices[self.ent_id].identifiers
             )
         elif self.ent_key[7:] == "delete_all_schedule_events":
-            # self.select_data = None
             await self.coordinator.client.delete_all_inverter_schedules(
                 redback_devices[self.ent_id].identifiers
             )
@@ -320,7 +319,6 @@ class RedbackTechButtonEnvelopeEntity(CoordinatorEntity, ButtonEntity):
             + "_"
             + ENTITY_ENVELOPE_DETAILS[self.ent_key[7:]]["name"]
         )
-        LOGGER.debug(f"datetime_data2: {self.ent_id}")
 
     @property
     def select_data(self):
@@ -378,7 +376,7 @@ class RedbackTechButtonEnvelopeEntity(CoordinatorEntity, ButtonEntity):
     async def async_press(self) -> None:
         """Update the current value."""
         if self.ent_key[7:] == "create_envelope_event":
-            LOGGER.debug(f"datetime_data2: {redback_devices[self.ent_id].identifiers}")
+            LOGGER.debug("datetime_data2: %s", redback_devices[self.ent_id].identifiers)
             await self.coordinator.client.create_op_envelope(
                 redback_devices[self.ent_id].identifiers
             )
@@ -391,7 +389,5 @@ class RedbackTechButtonEnvelopeEntity(CoordinatorEntity, ButtonEntity):
             await self.coordinator.client.delete_op_env_by_id(
                 redback_devices[self.ent_id].identifiers, self.select_data
             )
-            # await self.coordinator.client.delete_op_env_by_id( self.select_data)
-            # self.select_data = ''
 
         await self.coordinator.async_request_refresh()

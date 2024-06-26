@@ -54,7 +54,6 @@ class RedbackTechDataUpdateCoordinator(DataUpdateCoordinator):
         """Fetch data from Redback Tech."""
         try:
             data = await self.client.get_redback_data()
-            LOGGER.debug("Found the following Redback devices: %s", data)
         except AuthError as error:
             raise ConfigEntryAuthFailed(error) from error
         except RedbackTechClientError as error:

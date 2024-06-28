@@ -9,7 +9,8 @@ from homeassistant.components.button import (
 )
 from homeassistant.config_entries import ConfigEntry
 
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant #, HomeAssistantError, ServiceValidationError
+from homeassistant.exceptions import HomeAssistantError, ServiceValidationError
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -125,35 +126,60 @@ async def async_setup_entry(
     async def handle_delete_single_envelope(call):
         device_id = call.data.get("site_id")[-4:] + "env"
         event_id = call.data.get("event_id")
-        await coordinator.client.delete_op_env_by_id(device_id, event_id)
-        await coordinator.async_request_refresh()
+        serial_number = None
+        for devices in coordinator.data.devices:
+            if device_id == devices:
+                serial_number = redback_devices[device_id].serial_number
+                break
+        if serial_number is None:
+            raise ServiceValidationError(f"Site ID :{call.data.get("site_id")} not found in list of sites")
+        delete_success = False
+        if len(coordinator.data.openvelopes) >0:
+            for event_list in coordinator.data.openvelopes:
+                event_check = serial_number + "-" + event_id
+                LOGGER.debug("event_list: %s", event_list)
+                LOGGER.debug("event_check: %s", event_check)
+                if event_check == event_list:
+                    await coordinator.client.delete_op_env_by_id(device_id, event_id)
+                    delete_success = True
+                    await coordinator.async_request_refresh()
+                    break
+        else:
+            raise ServiceValidationError("There currently are no Operating Envelopes to delete.")
+        if not delete_success:
+            raise ServiceValidationError(f"Event ID :{event_id} not found in list of Operating Envelopes")
 
     async def handle_create_envelope(call):
         event_id = call.data.get("event_id")
-        start_at_utc = datetime.strptime(
-            call.data.get("start_time"), "%Y-%m-%d %H:%M:%S"
-        ).astimezone(timezone.utc)
-        end_at_utc = datetime.strptime(
-            call.data.get("end_time"), "%Y-%m-%d %H:%M:%S"
-        ).astimezone(timezone.utc)
-        site_id = call.data.get("site_id")
-        max_import_power = call.data.get("max_import_power")
-        max_export_power = call.data.get("max_export_power")
-        max_discharge_power = call.data.get("max_discharge_power")
-        max_charge_power = call.data.get("max_charge_power")
-        max_generation_power = call.data.get("max_generation_power")
-        await coordinator.client.create_operating_envelope(
-            event_id,
-            start_at_utc,
-            end_at_utc,
-            site_id,
-            max_import_power,
-            max_export_power,
-            max_discharge_power,
-            max_charge_power,
-            max_generation_power,
-        )
-        await coordinator.async_request_refresh()
+        if call.data.get("start_time") >= call.data.get("end_time"):
+            raise ServiceValidationError("Start time cannot be after end time")
+        elif call.data.get("event_id") == "":
+            raise ServiceValidationError("Event ID cannot be blank")
+        else:
+            start_at_utc = datetime.strptime(
+                call.data.get("start_time"), "%Y-%m-%d %H:%M:%S"
+            ).astimezone(timezone.utc)
+            end_at_utc = datetime.strptime(
+                call.data.get("end_time"), "%Y-%m-%d %H:%M:%S"
+            ).astimezone(timezone.utc)
+            site_id = call.data.get("site_id")
+            max_import_power = call.data.get("max_import_power")
+            max_export_power = call.data.get("max_export_power")
+            max_discharge_power = call.data.get("max_discharge_power")
+            max_charge_power = call.data.get("max_charge_power")
+            max_generation_power = call.data.get("max_generation_power")
+            await coordinator.client.create_operating_envelope(
+                event_id,
+                start_at_utc,
+                end_at_utc,
+                site_id,
+                max_import_power,
+                max_export_power,
+                max_discharge_power,
+                max_charge_power,
+                max_generation_power,
+            )
+            await coordinator.async_request_refresh()
 
     hass.services.async_register(DOMAIN, "inverter_reset_to_auto", handle_reset)
     hass.services.async_register(
@@ -328,6 +354,24 @@ class RedbackTechButtonEnvelopeEntity(CoordinatorEntity, ButtonEntity):
         ].data["value"]
 
     @property
+    def envelope_start_time(self):
+        return self.coordinator.data.schedules_datetime_data[
+            self.ent_id + "op_env_create_start_time"
+        ].data["value"]
+
+    @property
+    def envelope_end_time(self):
+        return self.coordinator.data.schedules_datetime_data[
+            self.ent_id + "op_env_create_end_time"
+        ].data["value"]
+
+    @property
+    def envelope_text(self):
+        return self.coordinator.data.text[
+            self.ent_id + "op_env_create_event_id"
+        ].data["value"]
+
+    @property
     def device_info(self) -> dict[str, Any]:
         """Return device registry information for this entity."""
         return {
@@ -361,7 +405,7 @@ class RedbackTechButtonEnvelopeEntity(CoordinatorEntity, ButtonEntity):
         """Set icon for this entity, if provided in parameters."""
         if ENTITY_ENVELOPE_DETAILS[self.ent_key[7:]]["icon"] is not None:
             return ENTITY_ENVELOPE_DETAILS[self.ent_key[7:]]["icon"]
-        pass
+        return
 
     @property
     def entity_registry_visible_default(self) -> bool:
@@ -377,11 +421,15 @@ class RedbackTechButtonEnvelopeEntity(CoordinatorEntity, ButtonEntity):
         """Update the current value."""
         if self.ent_key[7:] == "create_envelope_event":
             LOGGER.debug("datetime_data2: %s", redback_devices[self.ent_id].identifiers)
-            await self.coordinator.client.create_op_envelope(
-                redback_devices[self.ent_id].identifiers
-            )
+            if self.envelope_text == "":
+                raise ServiceValidationError("Envelope Name cannot be blank")
+            elif self.envelope_start_time >= self.envelope_end_time:
+                raise ServiceValidationError("Start time cannot be after end time")
+            else:
+                await self.coordinator.client.create_op_envelope(
+                    redback_devices[self.ent_id].identifiers
+                )
         elif self.ent_key[7:] == "delete_all_envelope_events":
-            # self.select_data = None
             await self.coordinator.client.delete_all_envelopes(
                 redback_devices[self.ent_id].identifiers
             )
@@ -389,5 +437,4 @@ class RedbackTechButtonEnvelopeEntity(CoordinatorEntity, ButtonEntity):
             await self.coordinator.client.delete_op_env_by_id(
                 redback_devices[self.ent_id].identifiers, self.select_data
             )
-
         await self.coordinator.async_request_refresh()

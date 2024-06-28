@@ -9,6 +9,7 @@ from homeassistant.components.calendar import (
     CalendarEntity,
     CalendarEntityFeature,
 )
+
 from homeassistant.config_entries import ConfigEntry
 
 from homeassistant.core import HomeAssistant, callback
@@ -23,23 +24,23 @@ async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     """Set Up Redback Tech Sensor Entities."""
-    global redback_devices, redback_entity_details
+    if entry.options["include_calendar"]:
+        global redback_devices, redback_entity_details
 
-    coordinator: RedbackTechDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][
-        REDBACKTECH_COORDINATOR
-    ]
+        coordinator: RedbackTechDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][
+            REDBACKTECH_COORDINATOR
+        ]
 
-    redback_devices = coordinator.data.devices
+        redback_devices = coordinator.data.devices
 
-    redback_entity_details = coordinator.data.inverter_calendar
-    calendars = []
+        redback_entity_details = coordinator.data.inverter_calendar
+        calendars = []
 
-    for device in redback_devices:
-        LOGGER.debug("device: %s", device)
-        if device[-3:] == "inv" and redback_devices[device].model[:2] != "SI":
-            redback_entity_details = coordinator.data.inverter_calendar
+        for device in redback_devices:
             LOGGER.debug("device: %s", device)
-            if len(redback_entity_details) > 0:
+            if device[-3:] == "inv" and redback_devices[device].model[:2] != "SI":
+                redback_entity_details = coordinator.data.inverter_calendar
+                LOGGER.debug("device: %s", device)
                 calendars.extend(
                     [
                         RedbackTechCalendarEntity(
@@ -47,10 +48,9 @@ async def async_setup_entry(
                         )
                     ]
                 )
-        elif device[-3:] == "env":
-            redback_entity_details = coordinator.data.envelope_calendar
-            LOGGER.debug("device: %s", device)
-            if len(redback_entity_details) > 0:
+            elif device[-3:] == "env":
+                redback_entity_details = coordinator.data.envelope_calendar
+                LOGGER.debug("device: %s", device)
                 calendars.extend(
                     [
                         RedbackTechCalendarEntity(
@@ -58,8 +58,7 @@ async def async_setup_entry(
                         )
                     ]
                 )
-
-    async_add_entities(calendars)
+        async_add_entities(calendars)
 
 
 class RedbackTechCalendarEntity(CoordinatorEntity, CalendarEntity):
@@ -122,21 +121,22 @@ class RedbackTechCalendarEntity(CoordinatorEntity, CalendarEntity):
         """Return the power mode of the entity."""
         LOGGER.debug("extra_attributes: %s", self.extra_attributes)
         res: Dict[str, Any] = {}
-        res["device_type"] = self.extra_attributes["device_type"]
-        res["device_id"] = self.extra_attributes["device_id"]
-        res["uuid"] = self.extra_attributes["uuid"]
-        res["schedule_selector"] = self.extra_attributes["schedule_selector"]
-        if self.extra_attributes["device_type"] == "env":
-            res["max_import_power_w"] = self.extra_attributes["max_import_power"]
-            res["max_export_power_w"] = self.extra_attributes["max_export_power"]
-            res["max_discharge_power_w"] = self.extra_attributes["max_discharge_power"]
-            res["max_charge_power_w"] = self.extra_attributes["max_charge_power"]
-            res["max_generation_power_va"] = self.extra_attributes[
-                "max_generation_power"
-            ]
-        elif self.extra_attributes["device_type"] == "inv":
-            res["power_level_w"] = self.extra_attributes["power_level"]
-            res["power_mode"] = self.extra_attributes["power_mode"]
+        if len(self.extra_attributes) > 0:
+            res["device_type"] = self.extra_attributes["device_type"]
+            res["device_id"] = self.extra_attributes["device_id"]
+            res["uuid"] = self.extra_attributes["uuid"]
+            res["schedule_selector"] = self.extra_attributes["schedule_selector"]
+            if self.extra_attributes["device_type"] == "env":
+                res["max_import_power_w"] = self.extra_attributes["max_import_power"]
+                res["max_export_power_w"] = self.extra_attributes["max_export_power"]
+                res["max_discharge_power_w"] = self.extra_attributes["max_discharge_power"]
+                res["max_charge_power_w"] = self.extra_attributes["max_charge_power"]
+                res["max_generation_power_va"] = self.extra_attributes[
+                    "max_generation_power"
+                ]
+            elif self.extra_attributes["device_type"] == "inv":
+                res["power_level_w"] = self.extra_attributes["power_level"]
+                res["power_mode"] = self.extra_attributes["power_mode"]
         return res
 
     @property

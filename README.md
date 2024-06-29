@@ -40,6 +40,12 @@ This release of the integration adds some **MAJOR** enhancements!!
 - Supports and Creates Operating Envelopes. Refer to the wiki to find out more and understand what Operating Envelopes are!!
 - Creates an Inverter and a Battery devices for each inverter it finds (Adds the Battery device only if it finds batteries in your setup)
 
+## Version 2.7.0 updates
+
+- Added Configuration Option to display schedules and Envelopes in Home Assistant Calendars.
+- Added Configuration Option to create 5min/30min/60min/monthly/yearly Utility Meters.
+- Code cleanups as well.
+
 ## Version 2.6.7 updates
 
 - Added support for Operating Envelopes, after loading the integration go to the Integration and select configure, and check the box to enable the device. Refer to the wiki for more details.

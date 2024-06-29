@@ -93,9 +93,7 @@ class RedbackTechConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         "include_calendar": self.entry.options[
                             "include_calendar"
                         ],
-                        "include_utility_meters": self.entry.options[
-                            "include_utility_meters"
-                        ],
+
                     },
                 )
 
@@ -193,10 +191,6 @@ class RedbackTechOptionsFlowHandler(config_entries.OptionsFlow):
             vol.Required(
                 "include_calendar",
                 default=self.config_entry.options.get("include_calendar", True),
-            ): cv.boolean,
-            vol.Required(
-                "include_utility_meters",
-                default=self.config_entry.options.get("include_utility_meters", False),
             ): cv.boolean,
         }
 

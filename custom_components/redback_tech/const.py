@@ -8,6 +8,8 @@ from homeassistant.const import Platform
 LOGGER = logging.getLogger(__package__)
 
 DOMAIN = "redback_tech"
+
+
 DEFAULT_NAME = "RedbackTechnologies"
 POLLING_INTERVAL = "polling_interval"
 UPDATE_LISTENER = "update_listener"

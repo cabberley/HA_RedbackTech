@@ -147,4 +147,4 @@ class RedbackTechTextEntity(CoordinatorEntity, TextEntity):
             )
 
         self.async_write_ha_state()
-        # await self.coordinator.async_request_refresh()
+

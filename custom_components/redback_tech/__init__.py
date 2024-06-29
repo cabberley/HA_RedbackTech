@@ -83,5 +83,13 @@ async def async_migrate_entry(hass, entry: ConfigEntry):
         hass.config_entries.async_update_entry(
             entry, data=data, options=options, version=version
         )
+    if entry.version < 6:
+        data = {**entry.data}
+        version = entry.version + 1
+        options = {**entry.options}
+        options["include_utility_meters"] = False
+        hass.config_entries.async_update_entry(
+            entry, data=data, options=options, version=version
+        )
     LOGGER.info("Successful migration of config entry to version %s", entry.version)
     return True

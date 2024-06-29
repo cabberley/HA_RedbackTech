@@ -57,7 +57,8 @@
           "include_envelope": "Include Operating Envelopes",
           "polling_interval": "Redback data Refresh Polling interval (seconds)",
           "portal_inverter_set": "Enable Portal Inverter Set (No Time Limit!)",
-          "include_calendar": "Enable Calendar for Schedules & Envelopes"
+          "include_calendar": "Enable Calendar for Schedules & Envelopes",
+          "include_utility_meters": "Include Utility Meters for Energy Usage"
         }
       }
     }

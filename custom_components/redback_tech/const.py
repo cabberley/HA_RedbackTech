@@ -1,8 +1,9 @@
 """Constants for the redback integration."""
 
-from homeassistant.const import Platform
+from enum import StrEnum
 from datetime import timedelta
 import logging
+from homeassistant.const import Platform
 
 LOGGER = logging.getLogger(__package__)
 
@@ -27,6 +28,18 @@ PLATFORMS = [
     Platform.SENSOR,
     Platform.TEXT,
 ]
+
+
+class CronPatterns(StrEnum):
+    """Cron patterns."""
+    EVERY_MINUTE = "* * * * *"
+    EVERY_5_MINUTES = "*/5 * * * *"
+    EVERY_30_MINUTES = "*/30 * * * *"
+    EVERY_HOUR = "0 * * * *"
+    EVERY_DAY = "0 0 * * *"
+    EVERY_MONTH = "0 0 1 * *"
+    EVERY_YEAR = "0 0 1 1 *"
+
 
 INVERTER_MODES = [
     "NoMode",

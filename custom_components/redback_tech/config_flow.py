@@ -32,7 +32,7 @@ DATA_SCHEMA = vol.Schema(
 class RedbackTechConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Redback Technologies config flow."""
 
-    VERSION = 5
+    VERSION = 6
     CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
 
     entry: config_entries.ConfigEntry | None
@@ -93,6 +93,9 @@ class RedbackTechConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         "include_calendar": self.entry.options[
                             "include_calendar"
                         ],
+                        "include_utility_meters": self.entry.options[
+                            "include_utility_meters"
+                        ],
                     },
                 )
 
@@ -143,6 +146,7 @@ class RedbackTechConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         "include_envelope": False,
                         "portal_inverter_set": False,
                         "include_calendar": True,
+                        "include_utility_meters": False,
                     },
                 )
         return self.async_show_form(
@@ -189,6 +193,10 @@ class RedbackTechOptionsFlowHandler(config_entries.OptionsFlow):
             vol.Required(
                 "include_calendar",
                 default=self.config_entry.options.get("include_calendar", True),
+            ): cv.boolean,
+            vol.Required(
+                "include_utility_meters",
+                default=self.config_entry.options.get("include_utility_meters", False),
             ): cv.boolean,
         }
 

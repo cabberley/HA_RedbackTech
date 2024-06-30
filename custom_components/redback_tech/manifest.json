@@ -11,11 +11,11 @@
   "loggers": ["redback"],
   "requirements": [
 
-      "redbacktechpy==2024.6.8b9"
+      "redbacktechpy==2024.7.0b2"
   ],
   "ssdp": [],
 
-  "version": "2024.7.0b1",
+  "version": "2024.7.0b2",
 
   "zeroconf": []
 }

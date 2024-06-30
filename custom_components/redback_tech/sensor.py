@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-# from datetime import datetime, timezone
-from math import floor as floor
 from typing import Any
 
 from redbacktechpy.model import Inverters
@@ -13,20 +11,14 @@ from homeassistant.components.sensor import (
     SensorEntity,
     SensorStateClass,
 )
-from homeassistant.config_entries import ConfigEntry
 
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import (
-    DOMAIN,
-    REDBACKTECH_COORDINATOR,
-    REDBACK_PORTAL,
-    MANUFACTURER,
-    # LOGGER
-)
+from .const import DOMAIN, REDBACKTECH_COORDINATOR, REDBACK_PORTAL, MANUFACTURER, LOGGER
 from .coordinator import RedbackTechDataUpdateCoordinator
 from .sensor_properties import (
     ENTITY_DETAILS,
@@ -42,7 +34,6 @@ async def async_setup_entry(
     coordinator: RedbackTechDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][
         REDBACKTECH_COORDINATOR
     ]
-
     redback_devices = coordinator.data.devices
     redback_entity_details = coordinator.data.entities
     sensors = []
@@ -51,9 +42,7 @@ async def async_setup_entry(
     for entity_key in entity_keys:
         if entity_key[7:] in ENTITY_DETAILS:
             sensors.extend([RedbackTechSensorEntity(coordinator, entity_key)])
-
     async_add_entities(sensors)
-
 
 class RedbackTechSensorEntity(CoordinatorEntity, SensorEntity):
     """Representation of a Redback Tech Sensor Entity."""

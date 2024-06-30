@@ -9,7 +9,8 @@
           "portal_email": "Redback Portal account email",
           "portal_password": "Redback Portal account password",
           "polling_interval": "Polling interval (seconds)",
-          "include_envelope": "Include Operating Envelopes"
+          "include_envelope": "Include Operating Envelopes",
+          "include_utility_meters": "Include Utility Meters for Energy Usage"
         }
       },
       "reauth_confirm": {
@@ -52,11 +53,13 @@
   "options": {
     "step": {
       "init":{
-        "title": "Integration Options",
+        "title": "Redback Integration Options",
         "data" : {
           "include_envelope": "Include Operating Envelopes",
           "polling_interval": "Redback data Refresh Polling interval (seconds)",
-          "portal_inverter_set": "Enable Portal Inverter Set (No Time Limit!)"
+          "portal_inverter_set": "Enable Portal Inverter Set (No Time Limit!)",
+          "include_calendar": "Enable Calendar for Schedules & Envelopes",
+          "include_utility_meters": "Include Utility Meters for Energy Usage"
         }
       }
     }

@@ -1,12 +1,15 @@
 """Constants for the redback integration."""
 
-from homeassistant.const import Platform
+from enum import StrEnum
 from datetime import timedelta
 import logging
+from homeassistant.const import Platform
 
 LOGGER = logging.getLogger(__package__)
 
 DOMAIN = "redback_tech"
+
+
 DEFAULT_NAME = "RedbackTechnologies"
 POLLING_INTERVAL = "polling_interval"
 UPDATE_LISTENER = "update_listener"
@@ -18,14 +21,27 @@ REDBACKTECH_COORDINATOR = "redbacktech_coordinator"
 REDBACK_PORTAL = "https://portal.redbacktech.com"
 MANUFACTURER = "Redback Technologies"
 PLATFORMS = [
-    Platform.SENSOR,
+    Platform.BINARY_SENSOR,
+    Platform.BUTTON,
+    Platform.CALENDAR,
+    Platform.DATETIME,
     Platform.NUMBER,
     Platform.SELECT,
-    Platform.DATETIME,
-    Platform.BUTTON,
-    Platform.BINARY_SENSOR,
+    Platform.SENSOR,
     Platform.TEXT,
 ]
+
+
+class CronPatterns(StrEnum):
+    """Cron patterns."""
+    EVERY_MINUTE = "* * * * *"
+    EVERY_5_MINUTES = "*/5 * * * *"
+    EVERY_30_MINUTES = "*/30 * * * *"
+    EVERY_HOUR = "0 * * * *"
+    EVERY_DAY = "0 0 * * *"
+    EVERY_MONTH = "0 0 1 * *"
+    EVERY_YEAR = "0 0 1 1 *"
+
 
 INVERTER_MODES = [
     "NoMode",

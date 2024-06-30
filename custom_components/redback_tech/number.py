@@ -58,8 +58,8 @@ class RedbackTechNumberEntity(CoordinatorEntity, NumberEntity):
             + "_"
             + ENTITY_DETAILS[self.ent_key[7:]]["name"]
         )
-        LOGGER.debug(f"number_data1: {self.ent_data}")
-        LOGGER.debug(f"number_data2: {self.ent_id}")
+        LOGGER.debug("number_data1: %s", self.ent_data)
+        LOGGER.debug("number_data2: %s", self.ent_id)
 
     @property
     def ent_data(self) -> Numbers:
@@ -217,4 +217,3 @@ class RedbackTechNumberEntity(CoordinatorEntity, NumberEntity):
                 )
 
         self.async_write_ha_state()
-        # await self.coordinator.async_request_refresh()

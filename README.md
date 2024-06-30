@@ -27,7 +27,7 @@
 > [!IMPORTANT]
 > **Please make sure you read and understand the information below on how this integration controls your inverter!**
 
-This release of the integration adds some **MAJOR** enhancements!!
+This release of the integration adds some enhancements!!
 **This Integration is the only way I know of to curtail your Redback Exports to avoid negative Feed in Tariffs**
 
 ## This HACS Integration for Redback Technologies Enables you to manage your Redback system
@@ -39,6 +39,14 @@ This release of the integration adds some **MAJOR** enhancements!!
 - Supports setting up Schedules to manage your Inverter's operations at defined times and durations
 - Supports and Creates Operating Envelopes. Refer to the wiki to find out more and understand what Operating Envelopes are!!
 - Creates an Inverter and a Battery devices for each inverter it finds (Adds the Battery device only if it finds batteries in your setup)
+
+## Version 2.7.0 updates
+
+- Added Configuration Option to display schedules and Envelopes in Home Assistant Calendars.
+- If you enable calendar option, you can delete a schedule or operating envelope directly from the calendar!
+- Added a few more sensors to display more detail on the MPPT strings if it is available.
+- Code cleanups as well.
+- Couple of bug fixes
 
 ## Version 2.6.7 updates
 
@@ -117,7 +125,7 @@ Make your changes and then submit, the integration will reload with the new opti
 ## Controlling your Inverter with the Integration
 
 > [!TIP]
-> People with Redback SI series smart Inverters Won't have access to the Controlling your Inverter through this integration atm. I do plan to provide an interrface to the 'Relay' scheduler when time permits.
+> People with Redback SI series smart Inverters won't have access to the Controlling your Inverter through this integration atm. I do plan to provide an interrface to the 'Relay' scheduler when time permits.
 
 Most users will be familiar with the Redback Portal Settings Page, which enables you to either create timed schedule to set the inverter to operate during a window of time or the alternative of set the Inverter to a mode and power setting and it will stay like that until you change it.
 
@@ -145,7 +153,17 @@ The following fields enable you to set the parameters to create a scheduled even
 - Set Duration (Set the number of minutes that this event should run for)
 - Set Start Time (Date time entity to set the start time for the event)
 
-After you have set those parameters, press the **Create Schedule** button and th integration will send the data to Redback to add onto your schedule. After a few seconds the unique ID Redback assigned the event will become visible in the Scheduled ID Selection Selector.
+After you have set those parameters, press the **Create Schedule** button and the integration will send the data to Redback to add onto your schedule. After a few seconds the unique ID Redback assigned the event will become visible in the Scheduled ID Selection Selector.
+
+**Operation Envelope Fields**
+The following fields enable you to set the parameters to create an Operating Envelope (refer to the [wiki for more information on Operating Envelopes](https://github.com/cabberley/HA_RedbackTech/wiki/Creating-an-Operating-Envelope))
+
+- Set Start Time (The data and time that the schedule should start)
+- Set End Time (The data and time that the schedule should Stop)
+- Set Envelope Name (Each Envelope needs a unique name. Don't I append a random 6 alpha numeric characters to the end to ensure uniqueness)
+- Set Max fields (The value for each aspect of the envelope that you want to create)
+
+After setting those parameters press the **Create Envelope** button and the integration will send the Operating Envelope to Redback.
 
 > [!NOTE]
 > If you want to change the mode of the inverter immediately for a period of time, just set the start time to now, along with the other settings desired and press the **create Schedule** button.
@@ -170,6 +188,6 @@ A simple trick to help get you started, if you go into your settings and devices
 
 ## TO DO LIST
 
-- Create a HA Calender to surface the all the scheduled events.
 - Add control for the Relays on the SI model inverters
 - Convert API auth to Home Assistant OAuth managed credentials
+- Add Service for bulk multi day creation of schedules and envelopes

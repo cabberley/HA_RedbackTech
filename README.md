@@ -12,7 +12,8 @@
 <p align="center">
   <href="https://github.com/cabberley/HA_RedbackTech/releases"><img src="https://img.shields.io/github/v/release/cabberley/HA_RedbackTech?display_name=tag&include_prereleases&sort=semver" alt="Current version">
   <img alt="GitHub" src="https://img.shields.io/github/license/cabberley/HA_RedbackTech"> <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/cabberley/ha_redbacktech/validate.yaml">
-  <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues/cabberley/ha_redbacktech"> <img alt="GitHub User's stars" src="https://img.shields.io/github/stars/cabberley">
+  <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues/cabberley/ha_redbacktech"> <img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/cabberley/HA_Redbacktech/total">
+ <img alt="GitHub User's stars" src="https://img.shields.io/github/stars/cabberley">
 
 </p>
 <p align="center">

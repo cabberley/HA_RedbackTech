@@ -69,7 +69,7 @@ class RedbackTechCalendarEntity(CoordinatorEntity, CalendarEntity):
         super().__init__(coordinator)
         self.ent_id = entity
         # self.ent_key = entity_key
-        self.entity_id = "calendar.rb_" + redback_devices[self.ent_id].serial_number
+        self.entity_id = "calendar.rb_" + (redback_devices[self.ent_id].serial_number).lower().replace(" ", "_")
         self.calendar_details = calendar_details
         self._entity = entity
         LOGGER.debug("calendar entity_id: %s", self.entity_id)

@@ -52,9 +52,9 @@ class RedbackTechSelectsEntity(CoordinatorEntity, SelectEntity):
             "select.rb"
             + self.ent_id[:4]
             + "_"
-            + self.ent_id[-3:].lower()
+            + self.ent_id[-3:].lower().replace(" ", "_")
             + "_"
-            + ENTITY_DETAILS[self.ent_key[7:]]["name"]
+            + ENTITY_DETAILS[self.ent_key[7:]]["name"].lower().replace(" ", "_")
         )
         LOGGER.debug(f"select_data1: {self.ent_data}")
         LOGGER.debug(f"select_data2: {self.ent_id}")

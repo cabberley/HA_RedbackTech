@@ -53,11 +53,11 @@ class RedbackTechDateTimeEntity(CoordinatorEntity, DateTimeEntity):
         self.ent_key = entity_key
         self.entity_id = (
             "datetime.rb"
-            + self.ent_id[:4]
+            + self.ent_id[:4].lower().replace(" ", "_")
             + "_"
-            + self.ent_id[-3:].lower()
+            + self.ent_id[-3:].lower().replace(" ", "_")
             + "_"
-            + self.ent_key
+            + self.ent_key.lower().replace(" ", "_")
         )
 
     @property

@@ -1968,7 +1968,7 @@ ENTITY_DETAILS = {
         "enabled": True,
     },
     "pv_generation_instantaneous_percent_capacity": {
-        "name": "PV Capacity Percent Generating Instantaneous ",
+        "name": "PV Capacity Percent Generating Instantaneous",
         "unit": PERCENTAGE,
         "icon": None,
         "device_class": None,
@@ -1983,7 +1983,7 @@ ENTITY_DETAILS = {
     "op_env_active_event_id": {
         "name": "Active Envelope ID",
         "unit": None,
-        "icon": "None",
+        "icon": None,
         "device_class": None,
         "state_class": None,
         "display_precision": None,

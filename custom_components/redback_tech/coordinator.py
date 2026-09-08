@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from datetime import timedelta
 
-from redbacktechpy import RedbackTechClient
 from redbacktechpy.exceptions import AuthError, RedbackTechClientError
 from redbacktechpy.model import RedbackTechData
 
@@ -19,6 +18,7 @@ from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
+from .client import PortalTolerantRedbackTechClient
 from .const import DOMAIN, LOGGER, POLLING_INTERVAL, TIMEOUT
 
 
@@ -31,7 +31,7 @@ class RedbackTechDataUpdateCoordinator(DataUpdateCoordinator):
         """Initialize the RedbackTech coordinator."""
 
         try:
-            self.client = RedbackTechClient(
+            self.client = PortalTolerantRedbackTechClient(
                 portal_email=entry.data["portal_email"],
                 portal_password=entry.data["portal_password"],
                 client_id=entry.data[CONF_CLIENT_ID],

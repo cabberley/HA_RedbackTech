@@ -2,15 +2,15 @@
 #Should be done. Now let's move on to the next file.
 from __future__ import annotations
 
-from typing import Any
 import async_timeout
+from aiohttp import ClientError
 
-from redbacktechpy import RedbackTechClient
 from redbacktechpy.exceptions import AuthError, RedbackTechClientError
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
+from .client import PortalTolerantRedbackTechClient
 from .const import LOGGER, TIMEOUT
 
 
@@ -18,7 +18,7 @@ async def async_validate_connection(hass: HomeAssistant, client_id: str, client_
     """Get data from API."""
 
     
-    client = RedbackTechClient(
+    client = PortalTolerantRedbackTechClient(
         portal_email=portal_email,
         portal_password=portal_password,
         client_id=client_id,
@@ -31,28 +31,30 @@ async def async_validate_connection(hass: HomeAssistant, client_id: str, client_
         async with async_timeout.timeout(TIMEOUT):
             test_api = await client.test_api_connection()
     except RedbackTechClientError as err:
-        LOGGER.error(f'Unknown RedbackTech Error: {err}')
-        raise RedbackTechClientError(err)
+        LOGGER.error("Unknown RedbackTech Error: %s", err)
+        raise RedbackTechClientError(err) from err
     except AuthError as e:
-        LOGGER.debug(f"Redback API Authentication: {e}")
+        LOGGER.debug("Redback API Authentication: %s", e)
         raise AuthError from e
 
     try:
         async with async_timeout.timeout(TIMEOUT):
             test_portal = await client.test_portal_connection()
-    except RedbackTechClientError as err:
-        LOGGER.error(f'Unknown RedbackTech Error: {err}')
-        raise RedbackTechClientError(err)
-    except AuthError as e:
-        LOGGER.debug(f"Redback Portal Authentication: {e}")
-        raise AuthError from e
+    except (AuthError, RedbackTechClientError, ClientError, TimeoutError) as err:
+        LOGGER.warning(
+            "Redback portal connection failed; API-only setup will continue: %s", err
+        )
+        await client.async_close_portal_session()
+        test_portal = None
 
     if not test_api:
         LOGGER.error("Could not retrieve any devices from Redback API servers")
         raise NoConnectivityError
-    elif not test_portal:
-        LOGGER.error("Could not retrieve any devices from Redback Portal servers")
-        raise NoConnectivityError
+    elif test_portal is False:
+        LOGGER.warning(
+            "Could not retrieve devices from Redback Portal servers; "
+            "continuing with API data"
+        )
     return True
 
 

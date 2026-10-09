@@ -189,6 +189,5 @@ A simple trick to help get you started, if you go into your settings and devices
 
 ## TO DO LIST
 
-- Add control for the Relays on the SI model inverters
-- Convert API auth to Home Assistant OAuth managed credentials
-- Add Service for bulk multi day creation of schedules and envelopes
+See the [Platinum readiness work items](./PLATINUM_ROADMAP.md) for a proposed
+quality-scale roadmap and the existing feature backlog.

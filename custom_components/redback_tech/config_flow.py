@@ -168,7 +168,7 @@ class RedbackTechOptionsFlowHandler(config_entries.OptionsFlow):
 
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
         """Initialize options flow."""
-        self.config_entry = config_entry
+        self._config_entry = config_entry
 
     async def async_step_init(self, user_input=None) -> FlowResult:
         """Manage options."""
@@ -178,19 +178,19 @@ class RedbackTechOptionsFlowHandler(config_entries.OptionsFlow):
         options = {
             vol.Required(
                 POLLING_INTERVAL,
-                default=self.config_entry.options.get(POLLING_INTERVAL, 60),
+                default=self._config_entry.options.get(POLLING_INTERVAL, 60),
             ): int,
             vol.Required(
                 "include_envelope",
-                default=self.config_entry.options.get("include_envelope", False),
+                default=self._config_entry.options.get("include_envelope", False),
             ): cv.boolean,
             vol.Required(
                 "portal_inverter_set",
-                default=self.config_entry.options.get("portal_inverter_set", False),
+                default=self._config_entry.options.get("portal_inverter_set", False),
             ): cv.boolean,
             vol.Required(
                 "include_calendar",
-                default=self.config_entry.options.get("include_calendar", True),
+                default=self._config_entry.options.get("include_calendar", True),
             ): cv.boolean,
         }
 
